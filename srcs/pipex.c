@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:40:18 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/19 00:47:23 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/27 02:44:02 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,33 +43,27 @@ void	error_cmd(char *cmd)
 	return ;
 }
 
-void	*execute(t_data *data, char *arg, char **env)
+void	*execute(t_data *data, t_cmd *cmd, char **env)
 {
-	char	**cmd;
 	char	*path;
 
-	cmd = ft_split(arg, ' ');
-	if (!cmd)
-		return (NULL);
-	if (cmd[0] && ft_strchr(cmd[0], '/'))
-		path = cmd[0];
+	if (cmd->cmd && ft_strchr(cmd->cmd, '/'))
+		path = cmd->cmd;
 	else
 	{
 		data->path = path_recup(env);
-		path = write_path(cmd[0], data);
+		path = write_path(cmd->cmd, data);
 		ft_freetab(data->path);
 	}
-	execve(path, cmd, env);
+	execve(path, cmd->arg, env);
 	if (errno == 13)
-		ft_printf("%s: permission denied\n", cmd[0]);
-	else if (cmd[0] && ft_strchr(cmd[0], '/'))
-		ft_printf("%s: no such file or directory \n", cmd[0]);
+		ft_printf("%s: permission denied\n", cmd->cmd);
+	else if (cmd->cmd && ft_strchr(cmd->cmd, '/'))
+		ft_printf("%s: no such file or directory \n", cmd->cmd);
 	else
-		error_cmd(cmd[0]);
-	ft_free_tab(cmd);
+		error_cmd(cmd->cmd);
 	ft_free_tab(data->tab);
-	exit(1);
-	return (NULL);
+	exit(127);
 }
 
 void	*free_pipex(t_data *data)
@@ -150,7 +144,7 @@ void	printstruct(t_cmd *cmds)
 		fprintf(stderr, "[%s]", cmds->arg[i]);
 	}
 	fprintf(stderr, "\n");
-	ft_printlist(cmds->lc);
+	ft_printlist(cmds->lst);
 
 }
 
@@ -179,7 +173,7 @@ t_cmd	parse(char *str)
 	}
 	cmds.cmd = cmds.arg[0];
 	cmds.arg[j] = 0;
-	cmds.lc = lst;
+	cmds.lst = lst;
 	printstruct(&cmds);
 	return(cmds);
 
@@ -200,8 +194,8 @@ void	*ft_pipex(t_data *data, char **argv, char **env)
 		{
 			free(data->pid);
 			cmd = parse(argv[i]);
-			redirection(data, i, argv);
-			execute(data, argv[i], env);
+			redirection(data, i, &cmd);
+			execute(data, &cmd, env);
 		}
 		else if (data->pid[i] > 0)
 		{
