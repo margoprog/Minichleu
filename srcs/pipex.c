@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:40:18 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/27 02:44:02 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/28 01:24:46 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,24 @@ char	*write_path(char *cmd, t_data *data)
 	}
 	return ("");
 }
+void	ft_lst_clear(t_list **lst)
+{
+	t_list	*temp;
+	t_list	*copylst;
+
+	if ((*lst) == NULL)
+		return ;
+	copylst = (*lst);
+	while (copylst)
+	{
+		temp = copylst->next;
+		free(copylst->file);
+		free(copylst);
+		copylst = temp;
+	}
+	(*lst) = NULL;
+}
+
 
 void	error_cmd(char *cmd)
 {
@@ -63,6 +81,8 @@ void	*execute(t_data *data, t_cmd *cmd, char **env)
 	else
 		error_cmd(cmd->cmd);
 	ft_free_tab(data->tab);
+	ft_free_tab(cmd->arg);
+	ft_lst_clear(&cmd->lst);
 	exit(127);
 }
 
@@ -147,6 +167,24 @@ void	printstruct(t_cmd *cmds)
 	ft_printlist(cmds->lst);
 
 }
+int	countarg(char **tab)
+{
+	int size;
+
+	size = 0;
+	int i = 0;
+	printf("%s\n", tab[i]);
+	while (tab[i])
+	{
+		if (chevron_comp(tab[i]))
+			i++;
+		else
+			size++;
+		i++;
+	}
+	return (size);
+}
+
 
 t_cmd	parse(char *str)
 {
@@ -160,6 +198,7 @@ t_cmd	parse(char *str)
 	i = 0;
 	lst = 0;
 	input = ft_split(str, ' ');
+	cmds.arg = ft_calloc(sizeof(char *), countarg(input) + 1);
 	while(input[i])
 	{
 		if(chevron_comp(input[i]))
@@ -171,8 +210,8 @@ t_cmd	parse(char *str)
 			cmds.arg[j++] = ft_strdup(input[i]);
 		i++;
 	}
+	ft_freetab(input);
 	cmds.cmd = cmds.arg[0];
-	cmds.arg[j] = 0;
 	cmds.lst = lst;
 	printstruct(&cmds);
 	return(cmds);

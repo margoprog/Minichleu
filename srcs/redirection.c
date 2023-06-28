@@ -6,19 +6,22 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/27 02:44:43 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/28 01:25:33 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	invalid_fd(t_data *data)
+void	invalid_fd(t_data *data, t_cmd *cmd)
 {
-		ft_free_tab(data->path); //freepid?
-		if (data->previous != -1)
-			close(data->previous);
-		perror("bash:");
-		exit(1);
+	ft_free_tab(data->path); //freepid?
+	ft_free_tab(cmd->arg);
+	ft_free_tab(data->tab);
+	ft_lst_clear(& cmd->lst);
+	if (data->previous != -1)
+		close(data->previous);
+	perror("bash:");
+	exit(1);
 }
 
 // void	redirect_outfile(t_data *data, int index, char **argv)
@@ -45,9 +48,9 @@ void openfiles(t_data *data, t_cmd *cmd)
 			fd = open(tmp->file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		else if(tmp->type == 3) // <
 			fd = open(tmp->file, O_RDONLY );
-		if(fd == -1)
-			invalid_fd(data);
-		if(tmp->type == 1 || tmp->type == 2)
+		if (fd == -1)
+			invalid_fd(data, cmd);
+		if (tmp->type == 1 || tmp->type == 2)
 			dup2(fd, STDOUT_FILENO);
 		else
 			dup2(fd, STDIN_FILENO);

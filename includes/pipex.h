@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/27 02:44:23 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/28 01:23:51 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct t_list
 typedef	struct t_cmd
 {
 	t_list	*lst;
-	char	*arg[1024];
+	char	**arg;
 	char	*cmd;
 } t_cmd;
 
@@ -65,7 +65,8 @@ void		*ft_pipex(t_data *data, char **argv, char **env);
 //redirection
 void		redirect_outfile(t_data *data, int index, char **argv);
 int			redirection(t_data *data, int index, t_cmd *cmd);
-void		invalid_fd(t_data *data);
+void		invalid_fd(t_data *data, t_cmd *cmd);
 void	printtab(char **tab);
+void	ft_lst_clear(t_list **lst);
 
 #endif

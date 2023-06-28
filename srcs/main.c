@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/27 00:36:08 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/28 01:07:18 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 		if (init_struct(&data, argc, env))
 			return (1);
-		// ft_pipex(&data, data.tab, env);
-		// ft_free_tab(data.tab);
+		ft_pipex(&data, data.tab, env);
+		ft_free_tab(data.tab);
 	}
 	return (0);
 }
