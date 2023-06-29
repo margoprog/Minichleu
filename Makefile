@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/06/17 20:32:19 by maheraul         ###   ########.fr        #
+#    Updated: 2023/06/28 22:47:26 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ PRINTF			=	libftprintf.a
 SRCS			=	srcs/main.c \
 					srcs/utils.c \
 					srcs/pipex.c \
-					srcs/redirection.c
+					srcs/redirection.c \
+					srcs/parse_input.c
 
 OBJS			=	${SRCS:.c=.o}
 

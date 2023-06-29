@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/28 01:07:18 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/29 01:15:39 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,11 @@ void	printtab(char **tab)
 
 int	main(int argc, char **argv, char **env)
 {
-	static t_data	data = {0};
+	//static t_data	data = {0};
 	char			*input;
 	(void)argv;
 	(void)argc;
+	(void)env;
 
 	while (1)
 	{
@@ -57,14 +58,17 @@ int	main(int argc, char **argv, char **env)
 			exit (1);
 		add_history(input);
 		// yassine
-		// input = parse_input(input);
-		data.tab = ft_split(input, '|');
-		data.nbcmd = ft_strlen_total(input, '|');
+		printf("aVANT %s\n", input);
+		input = parse_input(input);
+		printf("APREA %s\n", input);
 		free(input);
-		if (init_struct(&data, argc, env))
-			return (1);
-		ft_pipex(&data, data.tab, env);
-		ft_free_tab(data.tab);
+		// data.tab = ft_split(input, '|');
+		// data.nbcmd = ft_strlen_total(input, '|');
+		// free(input);
+		// if (init_struct(&data, argc, env))
+			// return (1);
+		// ft_pipex(&data, data.tab, env);
+		// ft_free_tab(data.tab);
 	}
 	return (0);
 }
