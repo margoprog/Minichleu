@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:40:18 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/28 01:24:46 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/01 00:25:58 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,6 @@ char	*write_path(char *cmd, t_data *data)
 	}
 	return ("");
 }
-void	ft_lst_clear(t_list **lst)
-{
-	t_list	*temp;
-	t_list	*copylst;
-
-	if ((*lst) == NULL)
-		return ;
-	copylst = (*lst);
-	while (copylst)
-	{
-		temp = copylst->next;
-		free(copylst->file);
-		free(copylst);
-		copylst = temp;
-	}
-	(*lst) = NULL;
-}
-
 
 void	error_cmd(char *cmd)
 {
@@ -65,7 +47,7 @@ void	*execute(t_data *data, t_cmd *cmd, char **env)
 {
 	char	*path;
 
-	if (cmd->cmd && ft_strchr(cmd->cmd, '/'))
+	if (cmd->cmd && ft_strchr(cmd->cmd, '/')) //et si nom de fichier contient /?
 		path = cmd->cmd;
 	else
 	{
@@ -80,10 +62,7 @@ void	*execute(t_data *data, t_cmd *cmd, char **env)
 		ft_printf("%s: no such file or directory \n", cmd->cmd);
 	else
 		error_cmd(cmd->cmd);
-	ft_free_tab(data->tab);
-	ft_free_tab(cmd->arg);
-	ft_lst_clear(&cmd->lst);
-	exit(127);
+	return (NULL);
 }
 
 void	*free_pipex(t_data *data)
@@ -96,131 +75,14 @@ void	*free_pipex(t_data *data)
 		waitpid(data->pid[i], NULL, 0);
 		i++;
 	}
-	free(data->pid);
+	free(data->pid); //?
 	close(data->fd[0]);
 	return (NULL);
 }
 
-int chevron_comp(char *str)
-{
-	if(!ft_strcmp(str, ">"))
-		return(1);
-	if(!ft_strcmp(str, ">>"))
-		return(2);
-	if(!ft_strcmp(str, "<"))
-		return(3);
-	if(!ft_strcmp(str, "<<"))
-		return(4);
-	return(0);
-}
-t_list	*ft_redirnew(char *file, int type)
-{
-	t_list	*lst;
-
-	lst = malloc(sizeof(t_list));
-	if (!lst)
-		return (NULL);
-	lst->file = file;
-	lst->type = type;
-	lst->next = NULL;
-	return (lst);
-}
-void	ft_rediradd_back(t_list **lst, t_list *new)
-{
-	t_list	*temp;
-
-	if (!(*lst))
-		*lst = new;
-	else
-	{
-		temp = *lst;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = new;
-	}
-}
-void	ft_printlist(t_list *list)
-{
-	t_list	*tmp;
-
-	tmp = list;
-	while (tmp != NULL)
-	{
-		fprintf(stderr, "[%i]{%s}\n", tmp->type, tmp->file);
-		tmp = tmp->next;
-	}
-}
-void	printstruct(t_cmd *cmds)
-{
-	for (int i = 0; cmds->arg[i]; i++)
-	{
-		if (i == 0)
-		{
-			fprintf(stderr, "CMD = {%s}\n", cmds->arg[0]);
-			continue ;
-		}
-		if (i == 1)
-			fprintf(stderr, "ARGS =");
-		fprintf(stderr, "[%s]", cmds->arg[i]);
-	}
-	fprintf(stderr, "\n");
-	ft_printlist(cmds->lst);
-
-}
-int	countarg(char **tab)
-{
-	int size;
-
-	size = 0;
-	int i = 0;
-	printf("%s\n", tab[i]);
-	while (tab[i])
-	{
-		if (chevron_comp(tab[i]))
-			i++;
-		else
-			size++;
-		i++;
-	}
-	return (size);
-}
-
-
-t_cmd	parse(char *str)
-{
-	t_cmd cmds;
-	t_list *lst;
-	char **input;
-	int j;
-	int i;
-
-	j = 0;
-	i = 0;
-	lst = 0;
-	input = ft_split(str, ' ');
-	cmds.arg = ft_calloc(sizeof(char *), countarg(input) + 1);
-	while(input[i])
-	{
-		if(chevron_comp(input[i]))
-		{
-			ft_rediradd_back(&lst, ft_redirnew(ft_strdup(input[i + 1]), chevron_comp(input[i])));
-			i++;
-		}
-		else
-			cmds.arg[j++] = ft_strdup(input[i]);
-		i++;
-	}
-	ft_freetab(input);
-	cmds.cmd = cmds.arg[0];
-	cmds.lst = lst;
-	printstruct(&cmds);
-	return(cmds);
-
-}
-
 void	*ft_pipex(t_data *data, char **argv, char **env)
 {
-	int	i;
+	int		i;
 	t_cmd	cmd;
 
 	i = -1;
@@ -234,7 +96,12 @@ void	*ft_pipex(t_data *data, char **argv, char **env)
 			free(data->pid);
 			cmd = parse(argv[i]);
 			redirection(data, i, &cmd);
-			execute(data, &cmd, env);
+			if (cmd.cmd)
+				execute(data, &cmd, env);
+			ft_free_tab(data->tab);
+			ft_free_tab(cmd.arg);
+			ft_lst_clear(&cmd.lst);
+			exit(127);
 		}
 		else if (data->pid[i] > 0)
 		{

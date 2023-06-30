@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 02:31:45 by maheraul          #+#    #+#             */
-/*   Updated: 2022/11/26 20:14:08 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/30 20:12:28 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_type_p(int *len_arg, unsigned long int p)
 		ft_putstr("(nil)");
 		return (5);
 	}
-	write(1, "0x", 2);
+	write(2, "0x", 2);
 	ft_putvoid(p, len_arg);
 	*len_arg += 2;
 	return (*len_arg);
@@ -57,7 +57,7 @@ int	ft_putnbr(int nb)
 	n = nb;
 	if (n == -2147483648)
 	{
-		write(1, "-2147483648", 11);
+		write(2, "-2147483648", 11);
 		return (nb);
 	}
 	if (n < 0)

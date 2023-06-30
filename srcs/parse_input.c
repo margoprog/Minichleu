@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:44:42 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/29 03:18:57 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/29 20:36:51 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void	*parse_input(char *input)
 		var.d = 1;
 	}
 	new[var.j] = '\0';
+	printf("%i|%i\n", ft_strlen(new), var.lentotal);
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/29 01:19:01 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/06/30 22:48:44 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,32 +53,41 @@ typedef struct t_data
 
 typedef struct t_var
 {
-	int		i;
-	int		j;
-	int		n;
-	int		d;
-	int		len;
-	int		lentotal;
-}
-				t_var;
+	int				i;
+	int				j;
+	int				n;
+	int				d;
+	int				len;
+	int				lentotal;
+}					t_var;
 
 int					ft_strlen_total(char const *str, char sep);
 
 //utils
 void				*ft_free_tab(char **tab);
+void				printtab(char **tab);
+void				printstruct(t_cmd *cmds);
+
 //pipex
 char				*write_path(char *cmd, t_data *data);
+void				error_cmd(char *cmd);
 void				*execute(t_data *data, t_cmd *cmd, char **env);
-
 void				*free_pipex(t_data *data);
 void				*ft_pipex(t_data *data, char **argv, char **env);
 //redirection
-void				redirect_outfile(t_data *data, int index, char **argv);
 int					redirection(t_data *data, int index, t_cmd *cmd);
-void				invalid_fd(t_data *data, t_cmd *cmd);
-void				printtab(char **tab);
-void				ft_lst_clear(t_list **lst);
+void				invalid_fd(t_data *data, t_cmd *cmd, char *file);
+void				openfiles(t_data *data, t_cmd *cmd);
 //parse input
 void				*parse_input(char *input);
+//fill_cmd_struct.c
+int					chevron_comp(char *str);
+int					countarg(char **tab);
+t_cmd				parse(char *str);
+//lst.c
+t_list				*ft_redirnew(char *file, int type);
+void				ft_rediradd_back(t_list **lst, t_list *new);
+void				ft_lst_clear(t_list **lst);
+void				ft_printlist(t_list *list);
 
 #endif
