@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:40:06 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/30 22:46:39 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/03 23:00:16 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ t_cmd	parse(char *str)
 	ft_freetab(input);
 	cmds.cmd = cmds.arg[0];
 	cmds.lst = lst;
-	printstruct(&cmds);
+	// printstruct(&cmds);
 	return (cmds);
 }

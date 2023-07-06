@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/07/01 00:28:27 by maheraul         ###   ########.fr        #
+#    Updated: 2023/07/06 01:06:23 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,12 @@ SRCS			=	srcs/main.c \
 					srcs/redirection.c \
 					srcs/parse_input.c \
 					srcs/lst.c \
-					srcs/fill_cmd_struct.c
+					srcs/fill_cmd_struct.c\
+					srcs/builtin.c\
+					srcs/echo.c\
+					srcs/pwd.c\
+					srcs/cd.c \
+					srcs/redir_nofork.c
 
 OBJS			=	${SRCS:.c=.o}
 

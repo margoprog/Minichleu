@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection.c                                      :+:      :+:    :+:   */
+/*   redir_nofork.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/06 01:09:46 by maheraul         ###   ########.fr       */
+/*   Created: 2023/07/06 00:59:43 by maheraul          #+#    #+#             */
+/*   Updated: 2023/07/06 03:16:04 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	invalid_fd(t_data *data, t_cmd *cmd, char *file)
+int	invalid_fd_nofork(t_data *data, t_cmd *cmd, char *file)
 {
+	(void)data;
 	ft_printf("bash: %s: ", file);
 	perror("");
-	ft_lst_clear(&cmd->lst);
-	ft_free_tab(cmd->arg);
-	ft_free_tab(data->tab);
-	if (data->previous != -1)
-		close(data->previous);
-	exit(1);
+	(void)cmd;
+	// ft_lst_clear(&cmd->lst);
+	// ft_free_tab(cmd->arg);
+	return (1);
 }
-void  openfiles(t_data *data, t_cmd *cmd)
+int	openfiles_nofork(t_data *data, t_cmd *cmd)
 {
 	t_list	*tmp;
 	int		fd;
 
+	fd = -1;
 	tmp = cmd->lst;
 	while (tmp)
 	{
@@ -38,25 +38,11 @@ void  openfiles(t_data *data, t_cmd *cmd)
 		else if (tmp->type == 3) // <
 			fd = open(tmp->file, O_RDONLY);
 		if (fd == -1)
-			invalid_fd(data, cmd, tmp->file);
+			return (invalid_fd_nofork(data, cmd, tmp->file));
 		if (tmp->type == 1 || tmp->type == 2)
 			dup2(fd, STDOUT_FILENO);
-		else
-			dup2(fd, STDIN_FILENO);
 		close(fd);
 		tmp = tmp->next;
 	}
-}
-void	redirection(t_data *data, int index, t_cmd *cmd)
-{
-	if (index != data->nbcmd - 1) //ls cat grep
-		dup2(data->fd[1], STDOUT_FILENO);
-	if (index != 0) // cat grep lsblk
-	{
-		dup2(data->previous, STDIN_FILENO);
-		close(data->previous);
-	}
-	close(data->fd[0]);
-	close(data->fd[1]);
-	openfiles(data, cmd);
+	return (0);
 }

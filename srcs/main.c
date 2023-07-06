@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/30 21:44:21 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/06 02:05:11 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	init_struct(t_data *data, int argc, char **env)
 {
 	(void)env;
 	(void)argc;
+	data->fork = 1;
 	data->previous = -1;
 	data->pid = malloc(sizeof(int) * data->nbcmd);
 	if (!data->pid)
@@ -52,9 +53,9 @@ int	main(int argc, char **argv, char **env)
 			exit(1);
 		add_history(input);
 		// yassine
-		printf("[%s]\n", input);
+		//printf("[%s]\n", input);
 		input = parse_input(input);
-		printf("[%s]\n", input);
+		//printf("[%s]\n", input);
 		data.tab = ft_split(input, '|');
 		data.nbcmd = ft_strlen_total(input, '|');
 		free(input);

@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/30 22:48:44 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/06 03:33:27 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct t_data
 	char			**path;
 	char			**tab;
 	int				*pid;
+	int				fork;
 	int				previous;
 	int				fd[2];
 }					t_data;
@@ -61,21 +62,25 @@ typedef struct t_var
 	int				lentotal;
 }					t_var;
 
+typedef int			(*t_func)(int ac);
+
 int					ft_strlen_total(char const *str, char sep);
 
 //utils
 void				*ft_free_tab(char **tab);
 void				printtab(char **tab);
 void				printstruct(t_cmd *cmds);
-
+void				error_cmd(char *cmd);
+//main.c
+char				**path_recup(char **env);
 //pipex
 char				*write_path(char *cmd, t_data *data);
-void				error_cmd(char *cmd);
 void				*execute(t_data *data, t_cmd *cmd, char **env);
 void				*free_pipex(t_data *data);
+void				ft_parent(t_data *data, int i);
 void				*ft_pipex(t_data *data, char **argv, char **env);
 //redirection
-int					redirection(t_data *data, int index, t_cmd *cmd);
+void				redirection(t_data *data, int index, t_cmd *cmd);
 void				invalid_fd(t_data *data, t_cmd *cmd, char *file);
 void				openfiles(t_data *data, t_cmd *cmd);
 //parse input
@@ -89,5 +94,15 @@ t_list				*ft_redirnew(char *file, int type);
 void				ft_rediradd_back(t_list **lst, t_list *new);
 void				ft_lst_clear(t_list **lst);
 void				ft_printlist(t_list *list);
-
+//builtin
+int					ft_is_builtin(t_cmd *cmd, char **env);
+//echo.c
+int				ft_echo(char **arg, char **env);
+//pwd.c
+int					ft_pwd(char **arg, char **env);
+//cd.c
+int					ft_cd(char **arg, char **env);
+//redirnofork
+int					openfiles_nofork(t_data *data, t_cmd *cmd);
+int					invalid_fd_nofork(t_data *data, t_cmd *cmd, char *file);
 #endif

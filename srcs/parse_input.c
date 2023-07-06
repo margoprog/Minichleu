@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:44:42 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/29 20:36:51 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/03 22:19:14 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	count_sep(t_var *tot, char *input)
 {
 	if ((input[tot->i] != '|' && input[tot->i + 1] && input[tot->i] == '>'
 			&& input[tot->i + 1] == '>') || (input[tot->i] != '|'
-			&& input[tot->i + 1] && input[tot->i] == '<'
-			&& input[tot->i + 1] == '<'))
+			&& input[tot->i + 1] && input[tot->i] == '<' && input[tot->i
+				+ 1] == '<'))
 		tot->d = 2;
 	if (tot->i > 0)
 		tot->j++;
@@ -52,8 +52,8 @@ void	*find_sep(t_var *var, char *input, char *new)
 {
 	if ((input[var->i] != '|' && input[var->i + 1] && input[var->i] == '>'
 			&& input[var->i + 1] == '>') || (input[var->i] != '|'
-			&& input[var->i + 1] && input[var->i] == '<'
-			&& input[var->i + 1] == '<'))
+			&& input[var->i + 1] && input[var->i] == '<' && input[var->i
+				+ 1] == '<'))
 		var->d = 2;
 	if (var->i > 0)
 		new[var->j++] = ' ';
@@ -67,8 +67,6 @@ void	*parse_input(char *input)
 	char	*new;
 
 	ft_memset(&var, 0, 24);
-	var.i =0;
-	var.j =0;
 	var.d = 1;
 	var.len = ft_strlen(input);
 	var.lentotal = len_total(input, var.len);
@@ -88,6 +86,5 @@ void	*parse_input(char *input)
 		var.d = 1;
 	}
 	new[var.j] = '\0';
-	printf("%i|%i\n", ft_strlen(new), var.lentotal);
 	return (new);
 }

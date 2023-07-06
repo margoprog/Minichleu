@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 01:27:25 by maheraul          #+#    #+#             */
-/*   Updated: 2023/06/30 22:18:16 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/06 00:28:56 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,17 @@ void	printstruct(t_cmd *cmds)
 	}
 	fprintf(stderr, "\n");
 	ft_printlist(cmds->lst);
+}
+void	ft_perror(char *file)
+{
+	ft_printf("bash: %s: ", file);
+	perror("");
+}
+
+void	error_cmd(char *cmd)
+{
+	if (!cmd)
+		ft_printf(" : command not found\n");
+	else
+		ft_printf("%s: command not found\n", cmd);
 }
