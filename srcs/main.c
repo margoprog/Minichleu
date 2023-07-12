@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/06 02:05:11 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/13 00:02:12 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,19 @@ int	init_struct(t_data *data, int argc, char **env)
 	return (0);
 }
 
+t_data	*starton()
+{
+	static t_data	data = {0}; //0x11das
+
+	return (&data);
+}
+
+
 int	main(int argc, char **argv, char **env)
 {
-	static t_data	data = {0};
+	t_data *data;
+
+	data = starton();
 	char			*input;
 
 	(void)argv;
@@ -56,13 +66,13 @@ int	main(int argc, char **argv, char **env)
 		//printf("[%s]\n", input);
 		input = parse_input(input);
 		//printf("[%s]\n", input);
-		data.tab = ft_split(input, '|');
-		data.nbcmd = ft_strlen_total(input, '|');
+		data->tab = ft_split(input, '|');
+		data->nbcmd = ft_strlen_total(input, '|');
 		free(input);
-		if (init_struct(&data, argc, env))
+		if (init_struct(data, argc, env))
 			return (1);
-		ft_pipex(&data, data.tab, env);
-		ft_free_tab(data.tab);
+		ft_pipex(data, data->tab, env);
+		ft_free_tab(data->tab);
 	}
 	return (0);
 }

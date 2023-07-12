@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:44:42 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/03 22:19:14 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:00:04 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	*parse_input(char *input)
 	var.len = ft_strlen(input);
 	var.lentotal = len_total(input, var.len);
 	new = malloc(sizeof(char) * (var.lentotal + 1));
+	if(!new)
+		return(NULL);
 	while (input[var.i])
 	{
 		if (input[var.i] == '|' || input[var.i] == '<' || input[var.i] == '>')

@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/06 01:09:46 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/12 22:48:34 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ void	invalid_fd(t_data *data, t_cmd *cmd, char *file)
 {
 	ft_printf("bash: %s: ", file);
 	perror("");
-	ft_lst_clear(&cmd->lst);
-	ft_free_tab(cmd->arg);
-	ft_free_tab(data->tab);
+	free_arg(0, 2, 1, cmd->arg, data->tab, &cmd->lst);
+
 	if (data->previous != -1)
 		close(data->previous);
 	exit(1);

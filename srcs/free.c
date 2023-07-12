@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/03 23:24:23 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 00:12:20 by maheraul         ###   ########.fr       */
+/*   Created: 2023/07/12 18:09:30 by maheraul          #+#    #+#             */
+/*   Updated: 2023/07/13 00:08:56 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_is_builtin(t_cmd *cmd, char **env)
+
+void	*free_arg(int str, int tab, int lst, ...)
 {
-	int i;
-	static const char *str[4] = {"pwd", "cd", "echo", NULL};
-	static const t_builtin func[3] = {ft_pwd, ft_cd, ft_echo};
+	va_list arg;
 
-	i = 0;
-	if (!cmd)
-		return (0);
-
-	while (str[i])
+	va_start(arg, lst);
+	while(str > 0)
 	{
-		if (!ft_strncmp(cmd->cmd, str[i], ft_strlen(cmd->cmd)))
-		{
-			printf("cmd = %s | builtin %s\n", cmd->cmd, str[i]);
-			func[i](cmd->arg, env);
-			printf("mon %s\n", str[i]);
-			return (1);
-		}
-		i++;
+		free((char *)va_arg(arg, char *));
+		str--;
 	}
-	return (0);
+	while(tab > 0)
+	{
+		ft_free_tab((char **)va_arg(arg, char **));
+		tab--;
+	}
+	while(lst > 0)
+	{
+		ft_lst_clear((t_list **)va_arg(arg, t_list **));
+		lst--;
+	}
+	// ft_printf("%s", "error malloc"); // a changer
+	return(va_end(arg),NULL);
 }

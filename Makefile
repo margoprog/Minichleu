@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/07/06 01:06:23 by maheraul         ###   ########.fr        #
+#    Updated: 2023/07/12 22:30:38 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRCS			=	srcs/main.c \
 					srcs/echo.c\
 					srcs/pwd.c\
 					srcs/cd.c \
-					srcs/redir_nofork.c
+					srcs/redir_nofork.c \
+					srcs/free.c
 
 OBJS			=	${SRCS:.c=.o}
 

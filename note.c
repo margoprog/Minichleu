@@ -49,7 +49,25 @@ si echo --> affiche la suite
 
 
 
-set faber cstell
-relire code
-ordonner fonction
-implementer buitltin
+
+
+
+//malloc
+//main
+ parse input (vire espace)  //free
+ data.tab (tab des commande entre pipe)
+ //init struct
+ data->pid (tab d int, un fork par commande) //str
+ cmd->arg (tab des arg de chaque commande)
+ cmd->lst (list file et type (chevron))
+
+ // pipex
+			// get cmd (free here)
+				//parse
+					input (split au espace) //free en fin de fonc
+					cmds.arg (calloc tableau avec les cmd)
+	//ft_nofork
+		`
+
+
+

@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:59:43 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/06 03:16:04 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/12 23:54:54 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 int	invalid_fd_nofork(t_data *data, t_cmd *cmd, char *file)
 {
-	(void)data;
 	ft_printf("bash: %s: ", file);
 	perror("");
-	(void)cmd;
-	// ft_lst_clear(&cmd->lst);
-	// ft_free_tab(cmd->arg);
+	free_arg(1, 1, 1, data->pid, cmd->arg, &cmd->lst);
 	return (1);
 }
 int	openfiles_nofork(t_data *data, t_cmd *cmd)
@@ -28,6 +25,7 @@ int	openfiles_nofork(t_data *data, t_cmd *cmd)
 	int		fd;
 
 	fd = -1;
+	fprintf(stderr, "%p\n", cmd->lst);
 	tmp = cmd->lst;
 	while (tmp)
 	{

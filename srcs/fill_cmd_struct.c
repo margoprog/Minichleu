@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:40:06 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/03 23:00:16 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/12 23:41:50 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int	countarg(char **tab)
 	return (size);
 }
 
-t_cmd	parse(char *str)
+t_cmd	*parse(char *str)
 {
-	t_cmd	cmds;
+	static t_cmd	cmds = {0};
 	t_list	*lst;
 	char	**input;
 	int		j;
@@ -55,7 +55,11 @@ t_cmd	parse(char *str)
 	i = 0;
 	lst = 0;
 	input = ft_split(str, ' ');
+	if(!input)
+		return (NULL);
 	cmds.arg = ft_calloc(sizeof(char *), countarg(input) + 1);
+	if(!cmds.arg)
+		return (free(input), NULL);
 	while (input[i])
 	{
 		if (chevron_comp(input[i]))
@@ -71,6 +75,6 @@ t_cmd	parse(char *str)
 	ft_freetab(input);
 	cmds.cmd = cmds.arg[0];
 	cmds.lst = lst;
-	// printstruct(&cmds);
-	return (cmds);
+	printstruct(&cmds);
+	return (&cmds);
 }

@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/06 03:33:27 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/13 00:16:25 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
@@ -50,6 +51,8 @@ typedef struct t_data
 	int				fork;
 	int				previous;
 	int				fd[2];
+
+	t_cmd			*onecmd;
 }					t_data;
 
 typedef struct t_var
@@ -62,8 +65,9 @@ typedef struct t_var
 	int				lentotal;
 }					t_var;
 
-typedef int			(*t_func)(int ac);
+typedef int			(*t_builtin)(char **arg, char **env);
 
+t_data				*starton(void);
 int					ft_strlen_total(char const *str, char sep);
 
 //utils
@@ -88,7 +92,7 @@ void				*parse_input(char *input);
 //fill_cmd_struct.c
 int					chevron_comp(char *str);
 int					countarg(char **tab);
-t_cmd				parse(char *str);
+t_cmd				*parse(char *str);
 //lst.c
 t_list				*ft_redirnew(char *file, int type);
 void				ft_rediradd_back(t_list **lst, t_list *new);
@@ -97,7 +101,7 @@ void				ft_printlist(t_list *list);
 //builtin
 int					ft_is_builtin(t_cmd *cmd, char **env);
 //echo.c
-int				ft_echo(char **arg, char **env);
+int					ft_echo(char **arg, char **env);
 //pwd.c
 int					ft_pwd(char **arg, char **env);
 //cd.c
@@ -105,4 +109,7 @@ int					ft_cd(char **arg, char **env);
 //redirnofork
 int					openfiles_nofork(t_data *data, t_cmd *cmd);
 int					invalid_fd_nofork(t_data *data, t_cmd *cmd, char *file);
+//free.c
+void				*free_arg(int str, int tab, int lst, ...);
+
 #endif
