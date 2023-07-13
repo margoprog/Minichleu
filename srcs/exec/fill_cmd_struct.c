@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:40:06 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 20:58:08 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:06:06 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,12 @@ int	countarg(char **tab)
 
 t_cmd	*parse(char *str)
 {
-	static t_cmd	cmds;
+	static t_cmd	cmds = {0};
 	t_list			*lst;
 	char			**input;
 	int				j;
 	int				i;
 
-	cmds = {0};
 	j = 0;
 	i = 0;
 	lst = 0;
