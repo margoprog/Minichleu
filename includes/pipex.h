@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 00:16:25 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:05:06 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct t_data
 	int				previous;
 	int				fd[2];
 
+	char			**env;
 	t_cmd			*onecmd;
 }					t_data;
 
@@ -80,9 +81,12 @@ char				**path_recup(char **env);
 //pipex
 char				*write_path(char *cmd, t_data *data);
 void				*execute(t_data *data, t_cmd *cmd, char **env);
-void				*free_pipex(t_data *data);
 void				ft_parent(t_data *data, int i);
 void				*ft_pipex(t_data *data, char **argv, char **env);
+//exec
+char				*write_path(char *cmd, t_data *data);
+void				*execute(t_data *data, t_cmd *cmd, char **env);
+int					get_cmd(t_data *data);
 //redirection
 void				redirection(t_data *data, int index, t_cmd *cmd);
 void				invalid_fd(t_data *data, t_cmd *cmd, char *file);
@@ -100,6 +104,7 @@ void				ft_lst_clear(t_list **lst);
 void				ft_printlist(t_list *list);
 //builtin
 int					ft_is_builtin(t_cmd *cmd, char **env);
+int					ft_is_builtin_vrmnt(char *str);
 //echo.c
 int					ft_echo(char **arg, char **env);
 //pwd.c
@@ -111,5 +116,6 @@ int					openfiles_nofork(t_data *data, t_cmd *cmd);
 int					invalid_fd_nofork(t_data *data, t_cmd *cmd, char *file);
 //free.c
 void				*free_arg(int str, int tab, int lst, ...);
+void				*free_pipex(t_data *data);
 
 #endif

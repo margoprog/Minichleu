@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 00:36:11 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/06 03:33:20 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:00:54 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ int	ft_echo(char **arg, char **env)
 	}
 	if (n == 0)
 		printf("\n");
-	return(0);
+	return (0);
 }

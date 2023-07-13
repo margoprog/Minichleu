@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:44:42 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/12 17:00:04 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/13 21:02:26 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	len_total(char *input, int len)
 {
 	t_var	tot;
 
-	ft_memset(&tot, 0, 24);
+	ft_memset(&tot, 0, sizeof(tot));
 	tot.d = 1;
 	while (input[tot.i])
 	{
@@ -66,13 +66,13 @@ void	*parse_input(char *input)
 	t_var	var;
 	char	*new;
 
-	ft_memset(&var, 0, 24);
+	ft_memset(&var, 0, sizeof(var));
 	var.d = 1;
 	var.len = ft_strlen(input);
 	var.lentotal = len_total(input, var.len);
-	new = malloc(sizeof(char) * (var.lentotal + 1));
-	if(!new)
-		return(NULL);
+	new = ft_calloc(sizeof(char), (var.lentotal + 1));
+	if (!new)
+		return (NULL);
 	while (input[var.i])
 	{
 		if (input[var.i] == '|' || input[var.i] == '<' || input[var.i] == '>')
@@ -87,6 +87,5 @@ void	*parse_input(char *input)
 		var.n = 0;
 		var.d = 1;
 	}
-	new[var.j] = '\0';
 	return (new);
 }

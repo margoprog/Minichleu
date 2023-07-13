@@ -1,46 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_nofork.c                                     :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 00:59:43 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/12 23:54:54 by maheraul         ###   ########.fr       */
+/*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
+/*   Updated: 2023/07/13 21:00:08 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	invalid_fd_nofork(t_data *data, t_cmd *cmd, char *file)
+void	invalid_fd(t_data *data, t_cmd *cmd, char *file)
 {
 	ft_printf("bash: %s: ", file);
 	perror("");
-	free_arg(1, 1, 1, data->pid, cmd->arg, &cmd->lst);
-	return (1);
+	free_arg(0, 2, 1, cmd->arg, data->tab, &cmd->lst);
+	if (data->previous != -1)
+		close(data->previous);
+	exit(1);
 }
-int	openfiles_nofork(t_data *data, t_cmd *cmd)
+
+void	openfiles(t_data *data, t_cmd *cmd)
 {
 	t_list	*tmp;
 	int		fd;
 
-	fd = -1;
-	fprintf(stderr, "%p\n", cmd->lst);
 	tmp = cmd->lst;
 	while (tmp)
 	{
-		if (tmp->type == 1) // >
+		if (tmp->type == 1)
 			fd = open(tmp->file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-		else if (tmp->type == 2) // >>
+		else if (tmp->type == 2)
 			fd = open(tmp->file, O_WRONLY | O_CREAT | O_APPEND, 0666);
-		else if (tmp->type == 3) // <
+		else if (tmp->type == 3)
 			fd = open(tmp->file, O_RDONLY);
 		if (fd == -1)
-			return (invalid_fd_nofork(data, cmd, tmp->file));
+			invalid_fd(data, cmd, tmp->file);
 		if (tmp->type == 1 || tmp->type == 2)
 			dup2(fd, STDOUT_FILENO);
+		else
+			dup2(fd, STDIN_FILENO);
 		close(fd);
 		tmp = tmp->next;
 	}
-	return (0);
+}
+
+void	redirection(t_data *data, int index, t_cmd *cmd)
+{
+	if (index != data->nbcmd - 1)
+		dup2(data->fd[1], STDOUT_FILENO);
+	if (index != 0)
+	{
+		dup2(data->previous, STDIN_FILENO);
+		close(data->previous);
+	}
+	close(data->fd[0]);
+	close(data->fd[1]);
+	openfiles(data, cmd);
 }

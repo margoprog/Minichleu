@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 03:12:53 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/03 22:13:16 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/13 20:38:46 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_env(int ac, char **arg, char **env)
 	return (0);
 }
 
-int	main(int ac, char **av, char **env)
-{
-	ft_env(ac, av, env);
-}
+// int	main(int ac, char **av, char **env)
+// {
+// 	ft_env(ac, av, env);
+// }

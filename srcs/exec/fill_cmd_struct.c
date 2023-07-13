@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:40:06 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/12 23:41:50 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/13 20:58:08 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,28 @@ int	countarg(char **tab)
 
 t_cmd	*parse(char *str)
 {
-	static t_cmd	cmds = {0};
-	t_list	*lst;
-	char	**input;
-	int		j;
-	int		i;
+	static t_cmd	cmds;
+	t_list			*lst;
+	char			**input;
+	int				j;
+	int				i;
 
+	cmds = {0};
 	j = 0;
 	i = 0;
 	lst = 0;
 	input = ft_split(str, ' ');
-	if(!input)
+	if (!input)
 		return (NULL);
 	cmds.arg = ft_calloc(sizeof(char *), countarg(input) + 1);
-	if(!cmds.arg)
+	if (!cmds.arg)
 		return (free(input), NULL);
 	while (input[i])
 	{
 		if (chevron_comp(input[i]))
 		{
 			ft_rediradd_back(&lst, ft_redirnew(ft_strdup(input[i + 1]),
-						chevron_comp(input[i])));
+					chevron_comp(input[i])));
 			i++;
 		}
 		else
@@ -75,6 +76,6 @@ t_cmd	*parse(char *str)
 	ft_freetab(input);
 	cmds.cmd = cmds.arg[0];
 	cmds.lst = lst;
-	printstruct(&cmds);
+	// printstruct(&cmds);
 	return (&cmds);
 }
