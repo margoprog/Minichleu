@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 21:00:08 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/14 02:09:31 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,40 @@
 
 void	invalid_fd(t_data *data, t_cmd *cmd, char *file)
 {
+	close_heredocs(data->docs, data->nb_hd);
 	ft_printf("bash: %s: ", file);
 	perror("");
 	free_arg(0, 2, 1, cmd->arg, data->tab, &cmd->lst);
 	if (data->previous != -1)
 		close(data->previous);
 	exit(1);
+}
+
+int	quelpipe(t_data *data, t_doc *doc, char *file)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_hd)
+	{
+		if (!ft_strcmp(file, doc[i].del))
+			return (doc[i].fd[0]);
+		i++;
+	}
+	return (-1);
+}
+
+void	close_heredocs(t_doc *doc, int limit)
+{
+	int	i;
+
+	i = 0;
+	while (i < limit)
+	{
+		close(doc[i].fd[0]);
+		free(doc[i++].del);
+	}
+	free(doc);
 }
 
 void	openfiles(t_data *data, t_cmd *cmd)
@@ -36,15 +64,19 @@ void	openfiles(t_data *data, t_cmd *cmd)
 			fd = open(tmp->file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		else if (tmp->type == 3)
 			fd = open(tmp->file, O_RDONLY);
+		else if (tmp->type == 4)
+			fd = quelpipe(data, data->docs, tmp->file);
 		if (fd == -1)
 			invalid_fd(data, cmd, tmp->file);
 		if (tmp->type == 1 || tmp->type == 2)
 			dup2(fd, STDOUT_FILENO);
 		else
 			dup2(fd, STDIN_FILENO);
-		close(fd);
+		if (tmp->type != 4)
+			close(fd);
 		tmp = tmp->next;
 	}
+	close_heredocs(data->docs, data->nb_hd);
 }
 
 void	redirection(t_data *data, int index, t_cmd *cmd)

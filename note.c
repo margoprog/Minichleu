@@ -54,12 +54,16 @@ si echo --> affiche la suite
 
 //malloc
 //main
- parse input (vire espace)  //free
- data.tab (tab des commande entre pipe)
- //init struct
- data->pid (tab d int, un fork par commande) //str
- cmd->arg (tab des arg de chaque commande)
- cmd->lst (list file et type (chevron))
+	//parseinput
+ 	parse input (vire espace)  //free
+	 data.tab (tab des commande entre pipe)
+	 //heredoc
+	doc (calloc tab de struct )
+				-> doc[i].del (str delimiteur)
+	//init struct
+	data->pid (tab d int, un fork par commande) //str
+	cmd->arg (tab des arg de chaque commande)
+	cmd->lst (list file et type (chevron))
 
  // pipex
 			// get cmd (free here)
@@ -71,3 +75,6 @@ si echo --> affiche la suite
 
 
 
+A FAIRE
+	close les here doc a chaque fois que le code quit ou crash malloc
+	//close_heredocs(data->docs, data->nb_hd);

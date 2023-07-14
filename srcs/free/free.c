@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:09:30 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 21:02:47 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/14 02:12:15 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	*free_pipex(t_data *data)
 	int	i;
 
 	i = 0;
+	close_heredocs(data->docs, data->nb_hd);
 	while (i < data->nbcmd)
 		waitpid(data->pid[i++], NULL, 0);
 	free(data->pid);

@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 21:05:06 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/14 02:10:07 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 // >> 2
 // < 3
 // << 4
+typedef struct t_doc
+{
+	char			*del;
+	int				fd[2];
+}					t_doc;
+
 typedef struct t_list
 {
 	char			*file;
@@ -54,6 +60,9 @@ typedef struct t_data
 
 	char			**env;
 	t_cmd			*onecmd;
+
+	int				nb_hd;
+	t_doc			*docs;
 }					t_data;
 
 typedef struct t_var
@@ -91,6 +100,8 @@ int					get_cmd(t_data *data);
 void				redirection(t_data *data, int index, t_cmd *cmd);
 void				invalid_fd(t_data *data, t_cmd *cmd, char *file);
 void				openfiles(t_data *data, t_cmd *cmd);
+void				close_heredocs(t_doc *doc, int limit);
+
 //parse input
 void				*parse_input(char *input);
 //fill_cmd_struct.c
@@ -117,5 +128,7 @@ int					invalid_fd_nofork(t_data *data, t_cmd *cmd, char *file);
 //free.c
 void				*free_arg(int str, int tab, int lst, ...);
 void				*free_pipex(t_data *data);
+//heredoc
+void				*here_doc(t_data *data, char *str);
 
 #endif

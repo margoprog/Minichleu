@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/07/13 20:53:39 by maheraul         ###   ########.fr        #
+#    Updated: 2023/07/13 21:14:20 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ DIR_SRCS		=	srcs
 DIR_OBJS		=	objs
 
 SRCS_NAMES		=	main.c \
+					heredoc/heredoc.c \
 					builtin/builtin.c \
 					builtin/cd.c \
 					builtin/echo.c \
@@ -72,6 +73,7 @@ $(DIR_OBJS):
 	mkdir -p objs/exec
 	mkdir -p objs/free
 	mkdir -p objs/utils
+	mkdir -p objs/heredoc
 
 clean			:
 					make clean -C libs/libft

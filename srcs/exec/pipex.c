@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:40:18 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 20:59:33 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/14 02:35:42 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	ft_nofork(t_data *data, t_cmd *cmd, char **env)
 		ft_is_builtin(cmd, env);
 	dup2(fd_tmp, STDOUT_FILENO);
 	close(fd_tmp);
+	close_heredocs(data->docs, data->nb_hd);
 	free_arg(0, 1, 1, cmd->arg, &cmd->lst);
 	return (0);
 }

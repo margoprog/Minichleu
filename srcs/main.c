@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 20:56:18 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/14 01:35:19 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main(int argc, char **argv, char **env)
 	data = starton();
 	(void)argv;
 	(void)argc;
+	(void)env; //test
 	while (1)
 	{
 		input = readline("minisheu> ");
@@ -47,6 +48,8 @@ int	main(int argc, char **argv, char **env)
 		input = parse_input(input);
 		if (!input)
 			exit(1);
+		if (here_doc(data, input))
+			return (1);
 		data->tab = ft_split(input, '|');
 		data->nbcmd = ft_strlen_total(input, '|');
 		free(input);
