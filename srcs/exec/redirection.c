@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/14 02:09:31 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/16 03:28:03 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ void	close_heredocs(t_doc *doc, int limit)
 	while (i < limit)
 	{
 		close(doc[i].fd[0]);
+		//printf("limit = %d i = %d\n", limit , i);
 		free(doc[i++].del);
 	}
-	free(doc);
+	if (limit)
+		free(doc);
 }
 
 void	openfiles(t_data *data, t_cmd *cmd)
@@ -92,3 +94,13 @@ void	redirection(t_data *data, int index, t_cmd *cmd)
 	close(data->fd[1]);
 	openfiles(data, cmd);
 }
+
+// ESPACE = ' ' '\t'
+
+
+//at << a > b | cat << a > c | cat << a > d  -> traire fichier 1
+//  << s echo j
+//  echo << s > fichier
+//  pwd << s
+//  pwd << a > kl
+//  << "a b"

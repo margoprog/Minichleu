@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:59:43 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/14 02:36:16 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/18 03:16:10 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,20 @@ int	openfiles_nofork(t_data *data, t_cmd *cmd)
 			fd = open(tmp->file, O_WRONLY | O_CREAT | O_APPEND, 0666);
 		else if (tmp->type == 3)
 			fd = open(tmp->file, O_RDONLY);
+		else if (tmp->type == 4)
+			fd = 0; // quelpipe(data, data->docs, tmp->file);
 		if (fd == -1)
 			return (invalid_fd_nofork(data, cmd, tmp->file));
 		if (tmp->type == 1 || tmp->type == 2)
 			dup2(fd, STDOUT_FILENO);
-		close(fd);
+		else
+			dup2(fd, STDIN_FILENO);
+		if (tmp->type != 4)
+			close(fd);
 		tmp = tmp->next;
 	}
+	for (int i = 0; i < data->nb_hd; i++)
+		close(data->docs[i].fd[0]);
+	// close_heredocs(data->docs, data->nb_hd);
 	return (0);
 }

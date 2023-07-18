@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/14 02:10:07 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/16 03:27:10 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void				redirection(t_data *data, int index, t_cmd *cmd);
 void				invalid_fd(t_data *data, t_cmd *cmd, char *file);
 void				openfiles(t_data *data, t_cmd *cmd);
 void				close_heredocs(t_doc *doc, int limit);
+int					quelpipe(t_data *data, t_doc *doc, char *file);
 
 //parse input
 void				*parse_input(char *input);

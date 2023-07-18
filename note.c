@@ -78,3 +78,31 @@ si echo --> affiche la suite
 A FAIRE
 	close les here doc a chaque fois que le code quit ou crash malloc
 	//close_heredocs(data->docs, data->nb_hd);
+
+
+
+pwd << a > fichier --> ca cree plus le fichier
+echo << a > fichier  -->
+
+cat << a > 1 || cat << a > 2 || cat << a > 3 --> n ecrit pas dans les 2 dernier fich
+//echo << a > lol  -->> pb free  ne creer plus le fichier
+echo << test\n
+<< "a b"
+
+
+exit
+quit si :
+-exit
+-exit 'num'
+-exit -'num'
+
+quit pas si :
+-exit 'num' 'num'
+-exit 'num string'
+		bash: exit: too many arguments
+
+
+-exit 'string' '...'
+-exit -'string'
+-exit: 9223372036854775808
+		bash: exit: a: numeric argument required

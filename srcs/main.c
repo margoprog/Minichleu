@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/14 01:35:19 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/16 01:33:10 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ int	main(int argc, char **argv, char **env)
 		input = readline("minisheu> ");
 		if (!input)
 			exit(1);
+		if (!*input)
+			continue;
 		add_history(input);
 		input = parse_input(input);
 		if (!input)
 			exit(1);
+		// yassine
 		if (here_doc(data, input))
 			return (1);
 		data->tab = ft_split(input, '|');
@@ -56,6 +59,14 @@ int	main(int argc, char **argv, char **env)
 		if (init_struct(data, env))
 			return (1);
 		ft_pipex(data, data->tab, env);
+		for (int i = 0; i < data->nb_hd; i++)
+		{
+			free(data->docs[i].del);
+			close(data->docs[i].fd[0]);
+		}
+		if (data->nb_hd)
+			free(data->docs);
+		// close_heredocs(data->docs, data->nb_hd);
 		ft_free_tab(data->tab);
 	}
 	return (0);

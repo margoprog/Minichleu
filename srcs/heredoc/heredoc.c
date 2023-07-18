@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 21:15:00 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/14 01:56:20 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/16 01:46:06 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,22 @@ char *next_word(char *str)
 	int i;
 	char *del;
 
+	int len = 0;
 	i = 0;
-	while(str && str[i] && str[i] != ' ')
+	while(str && str[i] && (str[i] == ' ' || str[i] == '\t' ))
 		i++;
-	del = malloc(sizeof(char) * i + 1);
-	i = 0;
-	while(str && str[i] && str[i] != ' ')
+	while(str && str[i] && str[i] != ' ' && str[i] != '\t')
 	{
-		del[i] = str[i];
 		i++;
+		len++;
 	}
-	del[i] = '\0';
+	del = ft_calloc(sizeof(char), len + 1);
+	i = 0;
+	len = 0;
+	while(str && str[i] && (str[i] == ' ' || str[i] == '\t' ))
+		i++;
+	while(str && str[i] && str[i] != ' ' && str[i] != '\t')
+		del[len++] = str[i++];
 	return(del);
 }
 char	*del_is(t_doc *doc, char *str)
@@ -68,11 +73,12 @@ char	*del_is(t_doc *doc, char *str)
 
 	n = 0;
 	i = 0;
-	while (str && str[i])
+	t_data *data = starton();
+	while (n < data->nb_hd)
 	{
 		if (str[i] == '<' && str[i + 1] && str[i + 1] == '<')
 		{
-			doc[n].del = next_word(&str[i+4]);
+			doc[n].del = next_word(&str[i+2]);
 			pipe(doc[n].fd);
 			n++;
 		}
@@ -88,7 +94,7 @@ void	child_hd(char *del, int fd1) // ecrire dans le pipe
 	while (1)
 	{
 		line = readline("> "); //stocker la ligne
-		if (!line || !*line ||!ft_strncmp(line, del, ft_strlen(line)))// break si entree
+		if (!line ||!ft_strcmp(line, del))// break si entree
 			break ;
 		ft_putendl_fd(line, fd1); //ecrire dans le pipe 1
 		free(line);
@@ -105,25 +111,19 @@ void	*here_doc(t_data *data, char *str)
 
 	i = 0;
 	data->nb_hd = count_hd(str);
-	printf("NOMBRE HiRE DOC = %i\n", data->nb_hd);
 	if (data->nb_hd == 0)
 		return (NULL);
 	doc = ft_calloc(sizeof(t_doc), data->nb_hd);
 	if (!doc)
 		return (NULL);
-	while (i < data->nb_hd)
-	{
-		del_is(doc ,str);
-		printf("struct %d del is = %s\n", i, doc[i].del);
-		i++;
-	}
-
+	del_is(doc ,str);
 	i = 0;
 	pid = fork();
 	if (pid == 0)
 	{
 		while(i < data->nb_hd)
 		{
+			// printf("[%i]%i | %i\n", i, doc[i].fd[0], doc[i].fd[1]);
 			close(doc[i].fd[0]);
 			child_hd(doc[i].del, doc[i].fd[1]);
 			free(doc[i].del);
