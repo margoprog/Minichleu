@@ -104,5 +104,5 @@ quit pas si :
 
 -exit 'string' '...'
 -exit -'string'
--exit: 9223372036854775808
+-exit: 9223372036854775808 OU  arg = strcomp 7 , 8 ou + 19 chiffre
 		bash: exit: a: numeric argument required

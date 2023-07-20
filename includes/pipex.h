@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/16 03:27:10 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/18 20:21:10 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void				ft_printlist(t_list *list);
 //builtin
 int					ft_is_builtin(t_cmd *cmd, char **env);
 int					ft_is_builtin_vrmnt(char *str);
+int					ft_exit(char **arg, char **env);
 //echo.c
 int					ft_echo(char **arg, char **env);
 //pwd.c

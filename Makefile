@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/07/13 21:14:20 by maheraul         ###   ########.fr        #
+#    Updated: 2023/07/18 20:20:46 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS_NAMES		=	main.c \
 					builtin/cd.c \
 					builtin/echo.c \
 					builtin/pwd.c \
+					builtin/exit.c \
 					exec/fill_cmd_struct.c \
 					exec/pipex.c \
 					exec/exec.c \

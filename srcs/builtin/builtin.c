@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 23:24:23 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 21:00:43 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:59:42 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	ft_is_builtin(t_cmd *cmd, char **env)
 {
 	int						i;
-	static const char		*str[4] = {"pwd", "cd", "echo", NULL};
-	static const t_builtin	func[3] = {ft_pwd, ft_cd, ft_echo};
+	static const char		*str[5] = {"pwd", "cd", "echo", "exit", NULL};
+	static const t_builtin	func[4] = {ft_pwd, ft_cd, ft_echo, ft_exit};
 
 	i = 0;
 	if (!cmd)
@@ -36,7 +36,7 @@ int	ft_is_builtin(t_cmd *cmd, char **env)
 int	ft_is_builtin_vrmnt(char *str)
 {
 	int					i;
-	static const char	*tab[4] = {"pwd", "cd", "echo", NULL};
+	static const char	*tab[5] = {"pwd", "cd", "echo", "exit", NULL};
 
 	i = 0;
 	while (str && tab[i])
