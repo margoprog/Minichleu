@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:40:18 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/16 03:37:21 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/25 02:41:14 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,18 @@
 
 int	ft_nofork(t_data *data, t_cmd *cmd, char **env)
 {
-	int	fd_tmp;
-
 	free(data->pid);
-	fd_tmp = dup(STDOUT_FILENO);
-	int fd_tmp2 = dup(STDIN_FILENO);
+	data->fddup[0] = dup(STDOUT_FILENO);
+	data->fddup[1] = dup(STDIN_FILENO);
 	if (!openfiles_nofork(data, cmd))
 	{
-		fprintf(stderr, "je suis la!\n");
 		ft_is_builtin(cmd, env);
+		dupclose(data->fddup);
+		free_arg(0, 1, 1, cmd->arg, &cmd->lst);
+		//free_arg(0, 2, 1, data->onecmd->arg, data->tab, &data->onecmd->lst);
+		return (0);
 	}
-	dup2(fd_tmp, STDOUT_FILENO);
-	dup2(fd_tmp2, STDOUT_FILENO);
-	close(fd_tmp);
-	close(fd_tmp2);
-	free_arg(0, 1, 1, cmd->arg, &cmd->lst);
+	dupclose(data->fddup);
 	return (0);
 }
 
@@ -39,6 +36,7 @@ void	ft_enfant(t_data *data, char **argv, int i, char **env)
 	cmd = NULL;
 	free(data->pid);
 	cmd = parse(argv[i]);
+	data->cmds = cmd;
 	if (cmd == NULL)
 	{
 		close_heredocs(data->docs, data->nb_hd);

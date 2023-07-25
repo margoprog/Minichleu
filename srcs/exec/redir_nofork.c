@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 00:59:43 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/18 03:16:10 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/25 02:34:31 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	openfiles_nofork(t_data *data, t_cmd *cmd)
 			fd = open(tmp->file, O_RDONLY);
 		else if (tmp->type == 4)
 			fd = 0; // quelpipe(data, data->docs, tmp->file);
+		fprintf(stderr, "FD = %i\n", fd);
 		if (fd == -1)
 			return (invalid_fd_nofork(data, cmd, tmp->file));
 		if (tmp->type == 1 || tmp->type == 2)

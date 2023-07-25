@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:49:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/16 03:28:03 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:40:01 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,20 @@ void	invalid_fd(t_data *data, t_cmd *cmd, char *file)
 	exit(1);
 }
 
-int	quelpipe(t_data *data, t_doc *doc, char *file)
+int	quelpipe(t_data *data, t_doc *doc, t_list *lst)
 {
-	int	i;
+	int	i = -1;
 
-	i = 0;
-	while (i < data->nb_hd)
+	(void)lst;
+	while (++i < data->nb_hd)
 	{
-		if (!ft_strcmp(file, doc[i].del))
+	 	if (!ft_strcmp(lst->file, doc[i].del))
+		{
+		// fprintf(stderr, "%s><%s|{%i}{%i}\n", lst->file,doc[i].del, doc[i].index, lst->index);
+
 			return (doc[i].fd[0]);
-		i++;
+		}
+		// i++;
 	}
 	return (-1);
 }
@@ -52,11 +56,12 @@ void	close_heredocs(t_doc *doc, int limit)
 		free(doc);
 }
 
-void	openfiles(t_data *data, t_cmd *cmd)
+void	openfiles(t_data *data, t_cmd *cmd, int i)
 {
 	t_list	*tmp;
 	int		fd;
 
+	(void) i;
 	tmp = cmd->lst;
 	while (tmp)
 	{
@@ -67,7 +72,7 @@ void	openfiles(t_data *data, t_cmd *cmd)
 		else if (tmp->type == 3)
 			fd = open(tmp->file, O_RDONLY);
 		else if (tmp->type == 4)
-			fd = quelpipe(data, data->docs, tmp->file);
+			fd = quelpipe(data, data->docs, tmp); // data->docs[i].fd[0];
 		if (fd == -1)
 			invalid_fd(data, cmd, tmp->file);
 		if (tmp->type == 1 || tmp->type == 2)
@@ -92,7 +97,7 @@ void	redirection(t_data *data, int index, t_cmd *cmd)
 	}
 	close(data->fd[0]);
 	close(data->fd[1]);
-	openfiles(data, cmd);
+	openfiles(data, cmd, index);
 }
 
 // ESPACE = ' ' '\t'

@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 21:15:00 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/16 01:46:06 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/25 02:57:51 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ char	*del_is(t_doc *doc, char *str)
 	{
 		if (str[i] == '<' && str[i + 1] && str[i + 1] == '<')
 		{
+			doc[n].index = n;
 			doc[n].del = next_word(&str[i+2]);
 			pipe(doc[n].fd);
 			n++;

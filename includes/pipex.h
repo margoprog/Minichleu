@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/18 20:21:10 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/25 03:05:10 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <sys/wait.h>
+# define LL_MAX 9223372036854775807UL
 
 // > 1
 // >> 2
@@ -32,12 +33,14 @@ typedef struct t_doc
 {
 	char			*del;
 	int				fd[2];
+	int				index;
 }					t_doc;
 
 typedef struct t_list
 {
 	char			*file;
 	int				type;
+	int				index;
 	struct t_list	*next;
 }					t_list;
 
@@ -57,9 +60,11 @@ typedef struct t_data
 	int				fork;
 	int				previous;
 	int				fd[2];
+	int				fddup[2];
 
 	char			**env;
 	t_cmd			*onecmd;
+	t_cmd			*cmds;
 
 	int				nb_hd;
 	t_doc			*docs;
@@ -99,9 +104,10 @@ int					get_cmd(t_data *data);
 //redirection
 void				redirection(t_data *data, int index, t_cmd *cmd);
 void				invalid_fd(t_data *data, t_cmd *cmd, char *file);
-void				openfiles(t_data *data, t_cmd *cmd);
+void				openfiles(t_data *data, t_cmd *cmd, int i);
 void				close_heredocs(t_doc *doc, int limit);
-int					quelpipe(t_data *data, t_doc *doc, char *file);
+int	quelpipe(t_data *data, t_doc *doc, t_list *lst);
+
 
 //parse input
 void				*parse_input(char *input);
@@ -110,7 +116,7 @@ int					chevron_comp(char *str);
 int					countarg(char **tab);
 t_cmd				*parse(char *str);
 //lst.c
-t_list				*ft_redirnew(char *file, int type);
+t_list	*ft_redirnew(char *file, int type, int index);
 void				ft_rediradd_back(t_list **lst, t_list *new);
 void				ft_lst_clear(t_list **lst);
 void				ft_printlist(t_list *list);
@@ -132,5 +138,16 @@ void				*free_arg(int str, int tab, int lst, ...);
 void				*free_pipex(t_data *data);
 //heredoc
 void				*here_doc(t_data *data, char *str);
+//exit
+int					exit_one(char **arg, char **env);
+int					ft_exit(char **arg, char **env);
+int					ft_exit_error(char **arg);
+long long			ft_atoi_max(char *str);
+int					ft_is_num(char *str);
+//exit fork
+int					exit_fork(char **arg, char **env);
+int					exit_error(char **arg);
+
+void				dupclose(int fd[2]);
 
 #endif

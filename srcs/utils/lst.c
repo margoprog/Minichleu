@@ -6,13 +6,13 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:21:07 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/03 22:17:57 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/07/25 03:07:38 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-t_list	*ft_redirnew(char *file, int type)
+t_list	*ft_redirnew(char *file, int type, int index)
 {
 	t_list	*lst;
 
@@ -21,6 +21,7 @@ t_list	*ft_redirnew(char *file, int type)
 		return (NULL);
 	lst->file = file;
 	lst->type = type;
+	lst->index = index;
 	lst->next = NULL;
 	return (lst);
 }
@@ -65,7 +66,7 @@ void	ft_printlist(t_list *list)
 	tmp = list;
 	while (tmp != NULL)
 	{
-		fprintf(stderr, "[%i]{%s}\n", tmp->type, tmp->file);
+		fprintf(stderr, "[%i]{%s}[%i]\n", tmp->type, tmp->file, tmp->index);
 		tmp = tmp->next;
 	}
 }

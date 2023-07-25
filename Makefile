@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/07/18 20:20:46 by maheraul         ###   ########.fr        #
+#    Updated: 2023/07/22 21:11:02 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS_NAMES		=	main.c \
 					builtin/echo.c \
 					builtin/pwd.c \
 					builtin/exit.c \
+					builtin/exit_fork.c\
 					exec/fill_cmd_struct.c \
 					exec/pipex.c \
 					exec/exec.c \
@@ -35,7 +36,8 @@ SRCS_NAMES		=	main.c \
 					free/free.c \
 					parsing/parse_input.c \
 					utils/lst.c \
-					utils/utils.c
+					utils/utils.c \
+
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 

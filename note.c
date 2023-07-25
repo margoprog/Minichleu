@@ -106,3 +106,10 @@ quit pas si :
 -exit -'string'
 -exit: 9223372036854775808 OU  arg = strcomp 7 , 8 ou + 19 chiffre
 		bash: exit: a: numeric argument required
+
+
+tu verifie en premier les arguments
+tu print les messages
+reviens dans le builtin exit
+free
+exit
