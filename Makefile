@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/07/22 21:11:02 by maheraul         ###   ########.fr        #
+#    Updated: 2023/08/08 18:59:15 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,16 @@ SRCS_NAMES		=	main.c \
 					exec/redirection.c \
 					exec/redir_nofork.c \
 					free/free.c \
-					parsing/parse_input.c \
 					utils/lst.c \
 					utils/utils.c \
+					parsing/env.c \
+					parsing/parse.c \
+					parsing/parse_input.c \
+					parsing/strjoin.c \
+					parsing/utils_env_2.c \
+					parsing/utils_env.c \
+					parsing/valid.c
+
 
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}

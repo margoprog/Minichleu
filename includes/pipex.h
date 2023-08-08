@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/25 03:05:10 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:10:07 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ typedef struct t_doc
 	int				fd[2];
 	int				index;
 }					t_doc;
+
+typedef struct s_env
+{
+	char	**env_copy;
+	char	*var_name;
+	char	*var_value;
+}	t_env;
 
 typedef struct t_list
 {
@@ -68,6 +75,9 @@ typedef struct t_data
 
 	int				nb_hd;
 	t_doc			*docs;
+	char	**env_copy;
+	char		*var_name;
+	char		*var_value;
 }					t_data;
 
 typedef struct t_var
@@ -149,5 +159,25 @@ int					exit_fork(char **arg, char **env);
 int					exit_error(char **arg);
 
 void				dupclose(int fd[2]);
+
+/********************************/
+
+char	*ft_strjoin_quote(char *s1, char *s2, char c);
+char	*strjoin_value_var(char *str, int j, t_data *env);
+char	*get_value_var(t_data *env, int i);
+char	*ft_strjoin_btw_quote(char *s1, char *s2);
+
+int	check_var_exist(char **env, char *variable);
+int	count_var_len(char *str);
+int	count_between_quotes(char *str, char c);
+int	count_string(char **env);
+char	**create_env(char **env);
+int	count_quotes(char *str);
+int	quotes(char *str);
+char	*ft_expand(char *str, t_data *env);
+int	syntax(char *str);
+char	*negatif(char *str);
+char	*positif(char *str);
+char	*delete_quotes(char *str);
 
 #endif

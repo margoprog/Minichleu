@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/16 01:33:10 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:06:34 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,18 @@ t_data	*starton(void)
 	return (&data);
 }
 
+int	valid_syntax(char **input, t_data *data)
+{
+	if (quotes(*input))
+		return (ft_printf("quote fail\n"), free(*input), 1);
+	if (syntax(*input))
+		return (ft_printf("syntax error\n"), free(*input), 1);
+	data->var_name = NULL;
+	data->var_value = NULL;
+	*input = ft_expand(*input, data);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
@@ -39,6 +51,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	(void)env; //test
+	data->env_copy = create_env(env);
 	while (1)
 	{
 		input = readline("minisheu> ");
@@ -47,16 +60,19 @@ int	main(int argc, char **argv, char **env)
 		if (!*input)
 			continue;
 		add_history(input);
+		// yassine
+		if (valid_syntax(&input, data))
+			continue ;
+		negatif(input);
 		input = parse_input(input);
 		if (!input)
 			exit(1);
-		// yassine
 		if (here_doc(data, input))
 			return (1);
 		data->tab = ft_split(input, '|');
 		data->nbcmd = ft_strlen_total(input, '|');
 		free(input);
-		if (init_struct(data, env))
+		if (init_struct(data, data->env_copy))
 			return (1);
 		ft_pipex(data, data->tab, env);
 		for (int i = 0; i < data->nb_hd; i++)

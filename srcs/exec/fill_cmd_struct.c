@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:40:06 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/25 18:51:00 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:08:55 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_cmd	*parse(char *str)
 			i++;
 		}
 		else
-			cmds.arg[j++] = ft_strdup(input[i]);
+			cmds.arg[j++] = ft_strdup(delete_quotes(positif(input[i])));
 		i++;
 	}
 	ft_freetab(input);
