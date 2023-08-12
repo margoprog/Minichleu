@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/08/12 01:58:40 by maheraul         ###   ########.fr        #
+#    Updated: 2023/08/11 21:57:14 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,7 @@ SRCS_NAMES		=	main.c \
 					parsing/utils_env_2.c \
 					parsing/utils_env.c \
 					parsing/valid.c\
-					parsing/expand.c\
-					parsing/count_expand.c
+					parsing/expand.c
 
 
 

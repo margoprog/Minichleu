@@ -6,7 +6,7 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/08 19:10:07 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/12 01:59:01 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,10 +174,17 @@ int	count_string(char **env);
 char	**create_env(char **env);
 int	count_quotes(char *str);
 int	quotes(char *str);
+char	*ft_expandd(char *str, t_data *env);
 char	*ft_expand(char *str, t_data *env);
 int	syntax(char *str);
 char	*negatif(char *str);
 char	*positif(char *str);
 char	*delete_quotes(char *str);
+
+char	*expand_ok(char *str, t_data *env, int *clef);
+int	count_squote(char *str, int *i, int *n);
+int	count_expand(char *str, t_data *env);
+
+
 
 #endif

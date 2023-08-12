@@ -113,3 +113,27 @@ tu print les messages
 reviens dans le builtin exit
 free
 exit
+
+
+expand $
+
+si $1AVION -> return ou return null (comme si on cherche $1 qui existe pas et avion reste de la string)
+si $AVION@ alors devient $1@    ,prendre en compte que alphanum et _
+chercher $ dans la string
+		si $ et si expand existe alors nouvelle string = new avec export getdollard(env , str)
+			new est une copy de l input en remplacamt le $ avec strcpy
+			   --> get dollar recherche avec strn comp le bon expand en parcurant l env et renvoir celui ci
+			   attention a sauv le dernier caractere pour le remettre a sa place plutot que \n
+
+			trouver une solution pour malloc correctement
+			attention a dollars seul
+			verifier avec export les caractere q ne pas traiter
+
+			gerer les cotes ->> si $A"VION" ou $A'VION' alors on cherche uniquement $
+
+		tant que une sigle , tant que pas la 2eme on expqnd pas
+			attention LS_COLORS
+
+			que faire si expand pas trouver
+			bash-5.1$ cat Makefile > $TEST
+			bash: $TEST: ambiguous redirect
