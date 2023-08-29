@@ -6,11 +6,11 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:40:06 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/08 19:08:55 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:40:18 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 int	chevron_comp(char *str)
 {
@@ -35,7 +35,11 @@ int	countarg(char **tab)
 	while (tab[i])
 	{
 		if (chevron_comp(tab[i]))
+		{
 			i++;
+			if (!tab[i])
+				return (-1);
+		}
 		else
 			size++;
 		i++;
@@ -43,27 +47,19 @@ int	countarg(char **tab)
 	return (size);
 }
 
-t_cmd	*parse(char *str)
+t_list	*list_parse(char **input, t_list *lst, t_cmd *cmds)
 {
-	static t_cmd	cmds = {0};
-	t_list			*lst;
-	char			**input;
-	int				j;
-	int				i;
+	int	i;
+	int	r;
+	int	v;
+	int	j;
 
-	j = 0;
 	i = 0;
-	lst = 0;
-	input = ft_split(str, ' ');
-	if (!input)
-		return (NULL);
-	cmds.arg = ft_calloc(sizeof(char *), countarg(input) + 1);
-	if (!cmds.arg)
-		return (free(input), NULL);
-	int v = 0;
+	v = 0;
+	j = 0;
 	while (input[i])
 	{
-		int r = chevron_comp(input[i]);
+		r = chevron_comp(input[i]);
 		if (r)
 		{
 			ft_rediradd_back(&lst, ft_redirnew(ft_strdup(input[i + 1]), r, v));
@@ -72,12 +68,57 @@ t_cmd	*parse(char *str)
 			i++;
 		}
 		else
-			cmds.arg[j++] = ft_strdup(delete_quotes(positif(input[i])));
+			cmds->arg[j++] = positif(delete_quotes(input[i]));
 		i++;
 	}
+	return (lst);
+}
+
+t_cmd	*parse_builtin(char *str)
+{
+	static t_cmd	cmds = {0};
+	t_list			*lst;
+	char			**input;
+	int				len;
+
+	lst = 0;
+	input = ft_split(str, " 	");
+	if (!input)
+		return (NULL);
+	len = countarg(input);
+	if (len == -1)
+		return (ft_freetab(input), &cmds);
+	cmds.arg = ft_calloc(sizeof(char *), len + 1);
+	if (!cmds.arg)
+		return (ft_freetab(input), NULL);
+	lst = list_parse(input, lst, &cmds);
 	ft_freetab(input);
 	cmds.cmd = cmds.arg[0];
 	cmds.lst = lst;
-	//printstruct(&cmds);
+	return (&cmds);
+}
+
+t_cmd	*parse(char *str)
+{
+	static t_cmd	cmds = {0};
+	t_list			*lst;
+	char			**input;
+	int				len;
+
+	lst = 0;
+	input = ft_split(str, " 	");
+	if (!input)
+		return (NULL);
+	len = countarg(input);
+	if (len == -1)
+		return (ft_freetab(input), fprintf(stderr, "ambigous redirect\n"),
+			&cmds);
+	cmds.arg = ft_calloc(sizeof(char *), len + 1);
+	if (!cmds.arg)
+		return (ft_freetab(input), NULL);
+	lst = list_parse(input, lst, &cmds);
+	ft_freetab(input);
+	cmds.cmd = cmds.arg[0];
+	cmds.lst = lst;
 	return (&cmds);
 }

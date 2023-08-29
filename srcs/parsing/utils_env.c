@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 23:46:55 by motroian          #+#    #+#             */
-/*   Updated: 2023/08/08 18:50:13 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:27:02 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 int	count_string(char **env)
 {
@@ -36,7 +36,7 @@ int	count_in_var(char *str)
 
 int	count_var_len(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] >= '0' && str[i] <= '9')
@@ -71,7 +71,7 @@ int	check_var_exist(char **env, char *variable)
 		return (-1);
 	while (env[i])
 	{
-		if (strncmp(env[i], variable, count_var_len(variable)) == 0)
+		if (ft_strncmp(env[i], variable, count_var_len(variable)) == 0)
 			return (i);
 		i++;
 	}

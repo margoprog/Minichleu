@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/28 02:02:35 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/14 00:10:17 by motroian         ###   ########.fr       */
+/*   Created: 2023/08/12 18:07:46 by motroian          #+#    #+#             */
+/*   Updated: 2023/08/12 18:08:06 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#define BUFFER_SIZE 300
+#include "libft.h"
 
-int	ft_pwd(char **arg, char ***env)
+void	ft_strcat(char *dst, const char *src, int *n)
 {
-	char	cwd[BUFFER_SIZE];
+	size_t	i;
+	size_t	j;
 
-	(void)env;
-	(void)arg;
-	if (getcwd(cwd, BUFFER_SIZE) != NULL)
-		printf("%s\n", cwd);
-	else
+	i = 0;
+	j = 0;
+	while (dst[i])
+		i++;
+	while (src[j])
 	{
-		perror("bash");
-		return (1);
+		dst[i + j] = src[j];
+		j++;
 	}
-	return (0);
+	dst[i + j] = '\0';
+	*n += j;
 }

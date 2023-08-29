@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 00:36:11 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 21:00:54 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:47:47 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
-#include <stdio.h>
-#include <unistd.h>
+#include "minishell.h"
 
 int	ft_check_n(char *str)
 {
@@ -31,17 +29,17 @@ int	ft_check_n(char *str)
 	return (1);
 }
 
-int	ft_echo(char **arg, char **env)
+int	ft_echo(char **arg, char ***env)
 {
 	int	i;
 	int	n;
 
 	(void)env;
-	i = 1;
+	i = 0;
 	n = 0;
 	if (arg[i])
 	{
-		while (!ft_check_n(arg[i]))
+		while (arg[i] && !ft_check_n(arg[i]))
 		{
 			i++;
 			n++;

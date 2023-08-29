@@ -6,30 +6,11 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 00:32:07 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/12 01:11:01 by maheraul         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:00:23 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-
-void	ft_strcat(char *dst, const char *src, int *n)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	while (dst[i])
-		i++;
-	while (src[j])
-	{
-		dst[i + j] = src[j];
-		j++;
-	}
-	dst[i + j] = '\0';
-	*n += j;
-}
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
+#    By: motroian <motroian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/10 00:33:37 by maheraul          #+#    #+#              #
-#    Updated: 2023/04/14 02:44:10 by maheraul         ###   ########.fr        #
+#    Updated: 2023/08/12 18:08:34 by motroian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g3
 
 SRCS = 		ft_isalpha.c\
 			ft_isdigit.c \
@@ -27,6 +27,7 @@ SRCS = 		ft_isalpha.c\
 			ft_memcpy.c \
 			ft_memmove.c \
 			ft_strlcpy.c \
+			ft_strcat.c \
 			ft_strlcat.c \
 			ft_toupper.c \
 			ft_tolower.c \

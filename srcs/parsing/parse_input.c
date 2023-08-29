@@ -6,11 +6,11 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:44:42 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 21:02:26 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:44:08 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 void	count_sep(t_var *tot, char *input)
 {
@@ -24,6 +24,30 @@ void	count_sep(t_var *tot, char *input)
 	tot->n = 1;
 }
 
+void	into_while_len_total(char *input, t_var *tot)
+{
+	if (input[tot->i] == 39)
+	{
+		tot->j++;
+		tot->i++;
+		while (input[tot->i] && input[tot->i] != 39)
+		{
+			tot->j++;
+			tot->i++;
+		}
+	}
+	else if (input[tot->i] == 34)
+	{
+		tot->j++;
+		tot->i++;
+		while (input[tot->i] && input[tot->i] != 34)
+		{
+			tot->j++;
+			tot->i++;
+		}
+	}
+}
+
 int	len_total(char *input, int len)
 {
 	t_var	tot;
@@ -32,6 +56,7 @@ int	len_total(char *input, int len)
 	tot.d = 1;
 	while (input[tot.i])
 	{
+		into_while_len_total(input, &tot);
 		if (input[tot.i] == '|' || input[tot.i] == '<' || input[tot.i] == '>')
 			count_sep(&tot, input);
 		while (tot.d > 0)
@@ -56,7 +81,7 @@ void	*find_sep(t_var *var, char *input, char *new)
 				+ 1] == '<'))
 		var->d = 2;
 	if (var->i > 0)
-		new[var->j++] = ' ';
+			new[var->j++] = ' ';
 	var->n = 1;
 	return (new);
 }
@@ -75,17 +100,27 @@ void	*parse_input(char *input)
 		return (NULL);
 	while (input[var.i])
 	{
+		if (input[var.i] == 39)
+		{
+			new[var.j++] = input[var.i++];
+			while (input[var.i] && input[var.i] != 39)
+				new[var.j++] = input[var.i++];
+		}
+		else if (input[var.i] == 34)
+		{
+			new[var.j++] = input[var.i++];
+			while (input[var.i] && input[var.i] != 34)
+				new[var.j++] = input[var.i++];
+		}
 		if (input[var.i] == '|' || input[var.i] == '<' || input[var.i] == '>')
 			new = find_sep(&var, input, new);
-		while (var.d > 0)
-		{
-			var.d--;
+		while (var.d-- > 0)
 			new[var.j++] = input[var.i++];
-		}
 		if (var.n == 1 && var.i != var.len)
-			new[var.j++] = ' ';
+				new[var.j++] = ' ';
 		var.n = 0;
 		var.d = 1;
 	}
+	free(input);
 	return (new);
 }

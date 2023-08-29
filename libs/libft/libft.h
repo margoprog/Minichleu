@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/10 18:52:55 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/12 01:07:52 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/11 21:01:19 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void				*ft_memchr(const void *s, int c, size_t n);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_itoa(int n);
-char				**ft_split(char const *s, char c);
+char				**ft_split(char const *s, char *str);
 char				*ft_strtrim(char const *s1, char const *set);
 char				*ft_strchr(char const *str, int c);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
@@ -63,7 +63,6 @@ void				ft_striteri(char *s, void (*f)(unsigned int, char *));
 void				*ft_memcpy(void *dest, const void *src, size_t n);
 void				ft_lstadd_front(t_libstst **lst, t_libstst *new);
 void				ft_lstadd_back(t_libstst **lst, t_libstst *new);
-void				ft_strcat(char *dst, const char *src, int *n);
 void				ft_lstclear(t_libstst **lst, void (*del)(void *));
 void				ft_lstdelone(t_libstst *lst, void (*del)(void *));
 void				ft_lstiter(t_libstst *lst, void (*f)(void *));

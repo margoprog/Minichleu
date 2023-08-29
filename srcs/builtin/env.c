@@ -3,30 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 03:12:53 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/13 20:38:46 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/14 00:05:22 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
+#include "minishell.h"
 
-int	ft_env(int ac, char **arg, char **env)
+int	ft_env(char **arg, char ***env)
 {
-	int	i;
+	int		i;
+	char	**tab;
 
+	(void)arg;
 	i = 0;
-	while (env[i])
+	tab = *env;
+	while (tab[i])
 	{
-		printf("%s\n", env[i]);
+		printf("%s\n", tab[i]);
 		i++;
 	}
 	return (0);
 }
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	ft_env(ac, av, env);
-// }

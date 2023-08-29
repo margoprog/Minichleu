@@ -6,7 +6,7 @@
 #    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/08/12 01:58:40 by maheraul         ###   ########.fr        #
+#    Updated: 2023/08/29 22:09:16 by maheraul         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,30 +22,35 @@ DIR_OBJS		=	objs
 
 SRCS_NAMES		=	main.c \
 					heredoc/heredoc.c \
+					heredoc/here_doc2.c \
 					builtin/builtin.c \
+					builtin/export.c \
+					builtin/unset.c \
 					builtin/cd.c \
+					builtin/env.c \
 					builtin/echo.c \
 					builtin/pwd.c \
 					builtin/exit.c \
 					builtin/exit_fork.c\
 					exec/fill_cmd_struct.c \
-					exec/pipex.c \
+					exec/minishell.c \
 					exec/exec.c \
 					exec/redirection.c \
 					exec/redir_nofork.c \
+					exec/signaux.c \
 					free/free.c \
 					utils/lst.c \
 					utils/utils.c \
 					parsing/env.c \
+					parsing/syntax.c\
 					parsing/parse.c \
 					parsing/parse_input.c \
 					parsing/strjoin.c \
 					parsing/utils_env_2.c \
 					parsing/utils_env.c \
-					parsing/valid.c\
-					parsing/expand.c\
-					parsing/count_expand.c
-
+					parsing/valid.c \
+					parsing/count_expand.c \
+					parsing/expand.c
 
 
 

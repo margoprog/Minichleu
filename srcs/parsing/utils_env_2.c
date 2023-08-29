@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/05 23:15:13 by motroian          #+#    #+#             */
-/*   Updated: 2023/08/08 19:08:29 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/14 00:08:05 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 char	*delete_quotes(char *str)
 {
@@ -32,7 +32,7 @@ char	*delete_quotes(char *str)
 	}
 	res[j] = 0;
 	str = res;
-	return (res);
+	return (str);
 }
 
 int	len_before_dollar(char *str)
@@ -53,22 +53,13 @@ int	is_not_var_char(char c)
 	return (0);
 }
 
-void	print_double(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i])
-		printf("%s\n", str[i++]);
-}
-
-char	**create_env(char **env)
+char	**create_env(char **env, int tofree)
 {
 	int		i;
 	char	**str;
 
 	i = 0;
-	str = calloc(sizeof(char *), (count_string(env) + 1));
+	str = ft_calloc(sizeof(char *), (count_string(env) + 1));
 	if (!str)
 		return (NULL);
 	while (env[i])
@@ -76,5 +67,7 @@ char	**create_env(char **env)
 		str[i] = ft_strdup(env[i]);
 		i++;
 	}
+	if (tofree)
+		free_all(env);
 	return (str);
 }

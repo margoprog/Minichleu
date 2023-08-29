@@ -101,7 +101,7 @@ quit pas si :
 -exit 'num string'
 		bash: exit: too many arguments
 
-
+quit
 -exit 'string' '...'
 -exit -'string'
 -exit: 9223372036854775808 OU  arg = strcomp 7 , 8 ou + 19 chiffre
@@ -114,26 +114,17 @@ reviens dans le builtin exit
 free
 exit
 
+args[i] = "PATH=/bin/"
+char *delimiter = strchr("PATH=/bin/", '=');
+	delimiter = '=/bin/'
+char *name = args[i] = "PATH"
+char *value = delimiter + 1;
+	value = "/bin/"
 
-expand $
 
-si $1AVION -> return ou return null (comme si on cherche $1 qui existe pas et avion reste de la string)
-si $AVION@ alors devient $1@    ,prendre en compte que alphanum et _
-chercher $ dans la string
-		si $ et si expand existe alors nouvelle string = new avec export getdollard(env , str)
-			new est une copy de l input en remplacamt le $ avec strcpy
-			   --> get dollar recherche avec strn comp le bon expand en parcurant l env et renvoir celui ci
-			   attention a sauv le dernier caractere pour le remettre a sa place plutot que \n
 
-			trouver une solution pour malloc correctement
-			attention a dollars seul
-			verifier avec export les caractere q ne pas traiter
 
-			gerer les cotes ->> si $A"VION" ou $A'VION' alors on cherche uniquement $
 
-		tant que une sigle , tant que pas la 2eme on expqnd pas
-			attention LS_COLORS
-
-			que faire si expand pas trouver
-			bash-5.1$ cat Makefile > $TEST
-			bash: $TEST: ambiguous redirect
+	here doc
+	ll min pour exit
+	ctrl c

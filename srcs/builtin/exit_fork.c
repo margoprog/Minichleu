@@ -6,11 +6,11 @@
 /*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:01:10 by maheraul          #+#    #+#             */
-/*   Updated: 2023/07/22 21:49:02 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:26:11 by maheraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 int	exit_error(char **arg)
 {
@@ -18,40 +18,44 @@ int	exit_error(char **arg)
 	long long	tmp;
 
 	data = starton();
-	tmp = ft_atoi_max(arg[1]);
-	if (arg[2] && ft_is_num(arg[1]))
+	tmp = ft_atoi_max(arg[0]);
+	if (arg[1] && ft_is_num(arg[0]))
 	{
 		ft_printf("%s", "bash: exit: too many arguments\n");
 		return (0);
 	}
-	else if (arg[1] && !ft_is_num(arg[1]))
+	else if (arg[0] && !ft_is_num(arg[0]))
 	{
 		printf("exit\n");
-		ft_printf("bash: exit: %s: numeric argument required\n", arg[1]);
-		free_arg(0, 2, 1, data->cmds->arg, data->tab, &data->cmds->lst);
+		ft_printf("bash: exit: %s: numeric argument required\n", arg[0]);
+		free_arg(0, 3, 1, data->cmds->arg, data->tab, data->env_copy,
+			&data->cmds->lst);
 		exit((unsigned char)tmp);
 	}
-	free_arg(0, 2, 1, data->cmds->arg, data->tab, &data->cmds->lst);
+	free_arg(0, 3, 1, data->cmds->arg, data->tab, data->env_copy,
+		&data->cmds->lst);
 	exit((unsigned char)tmp);
 }
 
 int	exit_fork(char **arg, char **env)
 {
-	(void)env;
-	t_data *data;
+	t_data	*data;
 
+	(void)env;
 	data = starton();
-	if (!*arg || !arg[1])
+	if (!*arg || !arg[0])
 	{
-		free_arg(0, 2, 1, data->cmds->arg, data->tab, &data->cmds->lst);
+		free_arg(0, 3, 1, data->cmds->arg, data->tab, data->env_copy,
+			&data->cmds->lst);
 		exit(0);
 	}
-	if (arg[1] && !ft_strcmp(arg[1], "--"))
+	if (arg[0] && !ft_strcmp(arg[0], "--"))
 	{
-		if (!arg[2])
+		if (!arg[1])
 		{
 			printf("exit\n");
-			free_arg(0, 2, 1, data->cmds->arg, data->tab, &data->cmds->lst);
+			free_arg(0, 3, 1, data->cmds->arg, data->tab, data->env_copy,
+				&data->cmds->lst);
 			exit(0);
 		}
 		else if (!exit_error(arg + 1))

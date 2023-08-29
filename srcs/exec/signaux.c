@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/28 02:02:35 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/14 00:10:17 by motroian         ###   ########.fr       */
+/*   Created: 2023/08/08 20:25:07 by motroian          #+#    #+#             */
+/*   Updated: 2023/08/14 00:07:08 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define BUFFER_SIZE 300
 
-int	ft_pwd(char **arg, char ***env)
+void	slash(int sig)
 {
-	char	cwd[BUFFER_SIZE];
+	if (sig == SIGQUIT)
+		exit(131);
+	if (sig == SIGINT)
+		exit(130);
+}
 
-	(void)env;
-	(void)arg;
-	if (getcwd(cwd, BUFFER_SIZE) != NULL)
-		printf("%s\n", cwd);
-	else
+void	ctrlc(int sig)
+{
+	if (sig == SIGINT)
 	{
-		perror("bash");
-		return (1);
+		ft_printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	return (0);
 }
