@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 21:15:00 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/29 22:12:56 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:20:20 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*del_is(t_doc *doc, char *str)
 	int		i;
 	int		n;
 	t_data	*data;
+	char	*tmp;
 
 	n = 0;
 	i = 0;
@@ -69,7 +70,12 @@ char	*del_is(t_doc *doc, char *str)
 		if (str[i] == '<' && str[i + 1] && str[i + 1] == '<')
 		{
 			doc[n].index = n;
-			doc[n].del = next_word(&str[i + 2]);
+			tmp = next_word(&str[i + 2]);
+			doc[n].quote = false;
+			if (ft_strchr(tmp, '"') || ft_strchr(tmp, '\''))
+				doc[n].quote = true;
+			doc[n].del = positif(delete_quotes(tmp));
+			free(tmp);
 			pipe(doc[n].fd);
 			n++;
 		}
@@ -83,7 +89,7 @@ void	pid_null(int *i, t_doc *doc, char *str, t_data *data)
 	while (*i < data->nb_hd)
 	{
 		close(doc[*i].fd[0]);
-		child_hd(doc[*i].del, doc[*i].fd[1]);
+		child_hd(doc[*i].del, doc[*i].fd[1], data, doc[*i].quote);
 		free(doc[*i].del);
 		(*i)++;
 	}
@@ -105,6 +111,8 @@ bool	here_doc(t_data *data, char *str)
 	if (!doc)
 		return (true);
 	del_is(doc, str);
+	data->docs = doc;
+	data->str = str;
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	i = 0;
@@ -115,6 +123,5 @@ bool	here_doc(t_data *data, char *str)
 			close(doc[i++].fd[1]);
 	signal(SIGINT, &ctrlc);
 	waitpid(pid, 0, 0);
-	data->docs = doc;
 	return (data->stop);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_cmd_struct.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 22:40:06 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/29 22:40:18 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:22:02 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ t_list	*list_parse(char **input, t_list *lst, t_cmd *cmds)
 		r = chevron_comp(input[i]);
 		if (r)
 		{
-			ft_rediradd_back(&lst, ft_redirnew(ft_strdup(input[i + 1]), r, v));
+			ft_rediradd_back(&lst,
+				ft_redirnew(positif(delete_quotes(((input[i + 1])))), r, v));
 			if (r == 4)
 				v++;
 			i++;
@@ -111,7 +112,7 @@ t_cmd	*parse(char *str)
 		return (NULL);
 	len = countarg(input);
 	if (len == -1)
-		return (ft_freetab(input), fprintf(stderr, "ambigous redirect\n"),
+		return (ft_freetab(input), ft_printf("ambigous redirect\n"),
 			&cmds);
 	cmds.arg = ft_calloc(sizeof(char *), len + 1);
 	if (!cmds.arg)

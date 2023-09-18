@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 18:09:30 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/29 22:21:59 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:59:19 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_docsmains(t_doc *doc, int n)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	while (++i < n)
 	{
 		free(doc[i].del);
@@ -79,6 +79,8 @@ void	*free_pipex(t_data *data)
 			data->status = WEXITSTATUS(data->status);
 		if (data->status == 131 && !var++)
 			ft_printf("Quit (core dumped)\n");
+		if (data->status == 2)
+			data->status = 130;
 	}
 	free(data->pid);
 	close(data->fd[0]);

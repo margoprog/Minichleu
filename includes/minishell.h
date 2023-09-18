@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 22:25:39 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/29 22:38:36 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/31 19:01:11 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "ft_printf.h"
 # include "libft.h"
 # include <errno.h>
+# include <limits.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -32,6 +33,7 @@ typedef struct t_doc
 	char			*del;
 	int				fd[2];
 	int				index;
+	bool			quote;
 }					t_doc;
 
 typedef struct s_env
@@ -77,6 +79,7 @@ typedef struct t_data
 	char			**env_copy;
 	char			*var_name;
 	char			*var_value;
+	char			*str;
 }					t_data;
 
 typedef struct t_var
@@ -86,21 +89,22 @@ typedef struct t_var
 	int				n;
 	int				d;
 	int				len;
-	int				lentotal;
 }					t_var;
 
 typedef int			(*t_builtin)(char **arg, char ***env);
 
 t_data				*starton(void);
+int					init_struct(t_data *data, char **env);
 t_cmd				*parse_builtin(char *str);
 int					ft_strlen_total(char const *str, char *sep);
+void				copyall(t_var *var, char *input, char *new, char c);
 
 //utils
 void				printtab(char **tab);
 void				printstruct(t_cmd *cmds);
 void				error_cmd(char *cmd);
 int					alphanum(char c);
-void				ft_strcat(char *dst, const char *src, int *n);
+void				ft_strcat(char *dst, char *src, int *n);
 char				*mgamiloueee(char *str);
 //main.c
 char				**path_recup(char **env);
@@ -161,7 +165,7 @@ void				*free_pipex(t_data *data);
 void				free_docsmains(t_doc *doc, int n);
 void				*ft_free_tab(char **tab);
 //heredoc
-void				child_hd(char *del, int fd1);
+void				child_hd(char *del, int fd1, t_data *env, bool c);
 bool				here_doc(t_data *data, char *str);
 //exit
 int					exit_one(char **arg);
@@ -193,7 +197,7 @@ int					count_string(char **env);
 char				**create_env(char **env, int tofree);
 int					count_quotes(char *str);
 int					quotes(char *str);
-int					syntax(char *str);
+int					syntax(char *s);
 char				*negatif(char *str);
 char				*positif(char *str);
 char				*get_name_var(char *str);

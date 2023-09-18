@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:44:42 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/29 22:44:08 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:03:43 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	*find_sep(t_var *var, char *input, char *new)
 				+ 1] == '<'))
 		var->d = 2;
 	if (var->i > 0)
-			new[var->j++] = ' ';
+		new[var->j++] = ' ';
 	var->n = 1;
 	return (new);
 }
@@ -94,33 +94,21 @@ void	*parse_input(char *input)
 	ft_memset(&var, 0, sizeof(var));
 	var.d = 1;
 	var.len = ft_strlen(input);
-	var.lentotal = len_total(input, var.len);
-	new = ft_calloc(sizeof(char), (var.lentotal + 1));
+	new = ft_calloc(sizeof(char), (len_total(input, var.len) + 1));
 	if (!new)
 		return (NULL);
 	while (input[var.i])
 	{
-		if (input[var.i] == 39)
-		{
-			new[var.j++] = input[var.i++];
-			while (input[var.i] && input[var.i] != 39)
-				new[var.j++] = input[var.i++];
-		}
-		else if (input[var.i] == 34)
-		{
-			new[var.j++] = input[var.i++];
-			while (input[var.i] && input[var.i] != 34)
-				new[var.j++] = input[var.i++];
-		}
+		if (input[var.i] == 39 || input[var.i] == 34)
+			copyall(&var, input, new, input[var.i]);
 		if (input[var.i] == '|' || input[var.i] == '<' || input[var.i] == '>')
 			new = find_sep(&var, input, new);
 		while (var.d-- > 0)
 			new[var.j++] = input[var.i++];
 		if (var.n == 1 && var.i != var.len)
-				new[var.j++] = ' ';
+			new[var.j++] = ' ';
 		var.n = 0;
 		var.d = 1;
 	}
-	free(input);
-	return (new);
+	return (free(input), new);
 }

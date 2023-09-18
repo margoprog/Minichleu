@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+         #
+#    By: motroian <motroian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/03 00:22:02 by maheraul          #+#    #+#              #
-#    Updated: 2023/08/29 22:09:16 by maheraul         ###   ########.fr        #
+#    Updated: 2023/08/30 21:31:24 by motroian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,19 +40,20 @@ SRCS_NAMES		=	main.c \
 					exec/signaux.c \
 					free/free.c \
 					utils/lst.c \
+					utils/init.c \
 					utils/utils.c \
 					parsing/env.c \
 					parsing/syntax.c\
 					parsing/parse.c \
 					parsing/parse_input.c \
+					parsing/parse_input2.c \
 					parsing/strjoin.c \
 					parsing/utils_env_2.c \
 					parsing/utils_env.c \
 					parsing/valid.c \
 					parsing/count_expand.c \
+					parsing/negatif.c \
 					parsing/expand.c
-
-
 
 OBJS_NAMES		=	${SRCS_NAMES:.c=.o}
 
@@ -71,8 +72,6 @@ CC				=	cc
 CFLAGS			=	-Iincludes -Ilibs/ft_printf -Ilibs/libft -g3 -Wall -Werror -Wextra
 
 all				:	${NAME}
-
-bonus			: ${NAME_BONUS}
 
 $(NAME): $(DIR_OBJS) $(OBJS)
 	@make -C libs/libft
@@ -96,7 +95,7 @@ $(DIR_OBJS):
 clean			:
 					make clean -C libs/libft
 					make clean -C libs/ft_printf
-					rm -rf ${OBJS} ${OBJS_BONUS} $(DIR_OBJS)
+					rm -rf ${OBJS} $(DIR_OBJS)
 
 fclean			:	clean
 					make fclean -C libs/libft
@@ -107,7 +106,4 @@ fclean			:	clean
 
 re				:	fclean all
 
-leaks: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=supp.txt  --track-fds=yes    ./minishell
-
-.PHONY			:	all clean fclean re bonus
+.PHONY			:	all clean fclean re

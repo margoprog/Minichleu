@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 01:27:25 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/29 22:18:31 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:33:06 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@ char	*mgamiloueee(char *str)
 
 	i = 0;
 	while (str && str[i])
-		str[i++] *= -1;
+	{
+		if (ft_strchr("><|", str[i]))
+			str[i] *= -1;
+		i++;
+	}
 	return (str);
 }
 
-void	ft_strcat(char *dst, const char *src, int *n)
+void	ft_strcat(char *dst, char *src, int *n)
 {
 	size_t	i;
 	size_t	j;
@@ -38,6 +42,7 @@ void	ft_strcat(char *dst, const char *src, int *n)
 	}
 	dst[i + j] = '\0';
 	*n += j;
+	free(src);
 }
 
 int	alphanum(char c)

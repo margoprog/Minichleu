@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signaux.c                                          :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 20:25:07 by motroian          #+#    #+#             */
-/*   Updated: 2023/08/31 18:53:55 by motroian         ###   ########.fr       */
+/*   Created: 2023/08/30 20:29:29 by motroian          #+#    #+#             */
+/*   Updated: 2023/08/30 20:29:42 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	slash(int sig)
+int	init_struct(t_data *data, char **env)
 {
-	if (sig == SIGQUIT)
-		exit(131);
-	if (sig == SIGINT)
-		exit(130);
+	(void)env;
+	data->fork = 1;
+	data->previous = -1;
+	data->pid = malloc(sizeof(int) * data->nbcmd);
+	if (!data->pid)
+		return (ft_free_tab(data->tab), 1);
+	return (0);
 }
 
-void	ctrlc(int sig)
+t_data	*starton(void)
 {
-	t_data	*data;
+	static t_data	data = {0};
 
-	data = starton();
-	if (sig == SIGINT)
-	{
-		ft_printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		data->status = 130;
-	}
+	return (&data);
 }

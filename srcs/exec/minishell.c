@@ -6,7 +6,7 @@
 /*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 02:40:18 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/28 23:28:21 by motroian         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:53:15 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ int	ft_nofork(t_data *data, t_cmd *cmd, char ***env)
 		while (cmd->arg[i])
 			positif(cmd->arg[i++]);
 		data->status = ft_is_builtin(cmd, env);
-		dupclose(data->fddup);
-		free_arg(0, 1, 1, data->onecmd->arg, &data->onecmd->lst);
-		return (0);
 	}
+	free_arg(0, 1, 1, data->onecmd->arg, &data->onecmd->lst);
 	dupclose(data->fddup);
 	return (0);
 }
@@ -47,6 +45,7 @@ void	ft_enfant(t_data *data, char **argv, int i, char ***env)
 
 	signal(SIGINT, &ctrlc);
 	signal(SIGQUIT, &slash);
+	signal(SIGINT, &slash);
 	cmd = NULL;
 	free(data->pid);
 	cmd = parse(argv[i]);
@@ -60,7 +59,7 @@ void	ft_enfant(t_data *data, char **argv, int i, char ***env)
 	redirection(data, i, cmd);
 	if (cmd->cmd && ft_is_builtin_vrmnt(cmd->cmd))
 		data->status = ft_is_builtin(cmd, env);
-	else
+	else if (cmd->cmd)
 	{
 		execute(data, cmd, env);
 		data->status = 127;
@@ -96,6 +95,5 @@ void	*ft_pipex(t_data *data, char **argv, char ***env)
 		else if (data->pid[i] > 0)
 			ft_parent(data, i);
 	}
-	signal(SIGINT, &ctrlc);
-	return (free_pipex(data));
+	return (free_pipex(data), signal(SIGINT, &ctrlc), NULL);
 }

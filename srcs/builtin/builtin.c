@@ -6,7 +6,7 @@
 /*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 23:24:23 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/28 23:04:18 by motroian         ###   ########.fr       */
+/*   Updated: 2023/08/31 18:42:08 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ int	ft_is_builtin(t_cmd *cmd, char ***env)
 	while (str[i])
 	{
 		if (!ft_strcmp(cmd->cmd, str[i]))
-		{
 			return (func[i](cmd->arg + 1, env));
-		}
 		i++;
 	}
 	return (0);

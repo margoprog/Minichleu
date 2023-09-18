@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maheraul <maheraul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 22:37:45 by maheraul          #+#    #+#             */
-/*   Updated: 2023/08/29 22:06:55 by maheraul         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:30:14 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	init_struct(t_data *data, char **env)
-{
-	(void)env;
-	data->fork = 1;
-	data->previous = -1;
-	data->pid = malloc(sizeof(int) * data->nbcmd);
-	if (!data->pid)
-		return (ft_free_tab(data->tab), 1);
-	return (0);
-}
-
-t_data	*starton(void)
-{
-	static t_data	data = {0};
-
-	return (&data);
-}
 
 int	into_while_main(t_data *data, char *input)
 {
@@ -49,6 +31,27 @@ int	into_while_main(t_data *data, char *input)
 	return (0);
 }
 
+int	empty_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	if (!str[i])
+		return (1);
+	return (0);
+}
+
+char	*travailavecinput(char *input, t_data *data)
+{
+	positif(input);
+	input = parse_input(input);
+	input = posquote(input);
+	input = ft_expandd(input, data);
+	return (input);
+}
+
 int	while_main(t_data *data, char *input)
 {
 	while (1)
@@ -59,13 +62,14 @@ int	while_main(t_data *data, char *input)
 		if (!*input)
 			continue ;
 		add_history(input);
-		negatif(input);
-		if (valid_syntax(input, data))
+		if (empty_str(input))
+		{
+			free(input);
 			continue ;
-		positif(input);
-		input = parse_input(input);
-		input = posquote(input);
-		input = ft_expandd(input, data);
+		}
+		if (negatif(input) && valid_syntax(input, data))
+			continue ;
+		input = travailavecinput(input, data);
 		if (!*input)
 		{
 			free(input);
@@ -91,5 +95,5 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, &ctrlc);
 	while_main(data, input);
 	ft_free_tab(data->env_copy);
-	return (0);
+	return (data->status);
 }

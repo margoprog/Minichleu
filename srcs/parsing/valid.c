@@ -6,7 +6,7 @@
 /*   By: motroian <motroian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 18:41:40 by motroian          #+#    #+#             */
-/*   Updated: 2023/08/29 20:26:05 by motroian         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:29:09 by motroian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,44 @@ int	ft_norm2(int *i, char *str)
 	return (0);
 }
 
-int	syntax(char *str)
+int	ft_doublepipe(int *i, char *str)
+{
+	if (str[*i] == '|')
+	{
+		(*i) += 1;
+		while (str[*i] && (str[*i] == ' ' || str[*i] == '	'))
+			(*i)++;
+		if (str[*i] == '|')
+			return (1);
+	}
+	return (0);
+}
+
+int	syntax(char *s)
 {
 	int	i;
 
-	i = -1;
-	while (str[++i])
+	i = 0;
+	while (s[i] && (s[i] == ' ' || s[i] == '	'))
+		i++;
+	if (s[i] == '|')
+		return (13);
+	while (s[i])
 	{
-		if (str[i + 1] == '\0')
-			if (ft_strchr("><|", str[i]) || ((str[i] == '<') && (str[i
-							+ 1] == '<')) || ((str[i] == '>') && (str[i
-							+ 1] == '>')))
-				return (1);
-		if (ft_norm2(&i, str))
-			return (1);
-		if ((str[i] == '>') || (str[i] == '<'))
+		if (!s[i + 1] && (ft_strchr("><|", s[i]) || (!ft_strncmp(&s[i], "<<", 2)
+					|| !ft_strncmp(&s[i], ">>", 2))))
+			return (10);
+		if (ft_norm2(&i, s) || ft_doublepipe(&i, s))
+			return (2);
+		if ((s[i] == '>') || (s[i] == '<'))
 		{
 			i++;
-			while (str[i] && (str[i] == ' ' || str[i] == '	'))
+			while (s[i] && (s[i] == ' ' || s[i] == '	'))
 				i++;
-			if ((str[i] == '<') && (str[i + 1] == '<'))
-				return (0);
-			else if (ft_strchr("><|", str[i]))
-				return (1);
+			if (ft_strchr("><|", s[i]))
+				return (3);
 		}
+		i++;
 	}
 	return (0);
 }
@@ -90,30 +104,4 @@ int	ft_norme(char *str, int *i, int c, int *quote)
 	if (str[(*i)++] == c)
 		(*quote)++;
 	return (c);
-}
-
-char	*negatif(char *str)
-{
-	int		i;
-	char	c;
-
-	i = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] != 39 && str[i] != 34)
-			i++;
-		if (str[i] && (str[i] == 39 || str[i] == 34))
-		{
-			c = str[i];
-			i++;
-			while (str[i] && str[i] != c)
-			{
-				str[i] *= -1;
-				i++;
-			}
-			if (str[i] == c)
-				i++;
-		}
-	}
-	return (str);
 }
